@@ -4,7 +4,12 @@ var express = require('express'),
     database = require('../db.js'),
     db = require('../dbinteraction.js'),
     messages = require('../messages.js'),
-    sched = require('../scheduling.js');
+    sched = require('../scheduling.js'),
+    timer = require('node-schedule');
+
+// var j = timer.scheduleJob('0 * * * * *', function(){
+//     console.log("testing cron");
+// })
 
 /* GET users listing. */
 router.post('/', function(req, res, next) {
