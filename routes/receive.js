@@ -7,10 +7,6 @@ var express = require('express'),
     sched = require('../scheduling.js'),
     timer = require('node-schedule');
 
-// var j = timer.scheduleJob('0 * * * * *', function(){
-//     console.log("testing cron");
-// })
-
 /* GET users listing. */
 router.post('/', function(req, res, next) {
 	var sender = Number(req.body.From);
@@ -83,6 +79,31 @@ router.post('/', function(req, res, next) {
             tools.sendMessage(messages.adminNumber, "New day! all records have been reset")
             sched.resetAll();
             break;
+
+        case "start":
+            console.log("starting scheduled sending");
+            tools.sendMessage(messages.adminNumber, "Starting scheduled sending")
+
+            var sendSurvey = timer.scheduleJob('0 * * * * *', function(){
+                tools.sendMessage(messages.adminNumber, "Surveys have been sent")
+                tools.sendAll();
+            })     
+
+            var sendReminder = timer.scheduleJob('10,20,30 * * * * *', function(){
+                tools.sendMessage(messages.adminNumber, "Reminder has been sent")
+                tools.remindAll();
+            })
+
+            var resetting = timer.scheduleJob('50 * * * * *', function(){
+                tools.sendMessage(messages.adminNumber, "New day! all records have been reset");
+                tools.resetAll();
+            })
+
+        case "end":
+            sendSurvey.cancel();
+            sendReminder.cancel();
+            tools.sendMessage(messages.adminNumber, "Scheduled sending has been stopped")
+
 
         default: 
             tools.sendMessage(sender, messages.instructions)
