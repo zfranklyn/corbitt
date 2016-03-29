@@ -82,28 +82,30 @@ router.post('/', function(req, res, next) {
 
         case "start":
             console.log("starting scheduled sending");
-            tools.sendMessage(messages.adminNumber, "Starting scheduled sending")
+            tools.sendMessage(messages.adminNumber, "Starting scheduled sending. TEST RUN.");
 
             var sendSurvey = timer.scheduleJob('0 * * * * *', function(){
-                tools.sendMessage(messages.adminNumber, "Surveys have been sent")
-                tools.sendAll();
+                tools.sendMessage(messages.adminNumber, "Surveys have been sent");
+                sched.sendAll();
             })     
 
             var sendReminder = timer.scheduleJob('10,20,30 * * * * *', function(){
-                tools.sendMessage(messages.adminNumber, "Reminder has been sent")
-                tools.remindAll();
+                tools.sendMessage(messages.adminNumber, "Reminder has been sent");
+                sched.remindAll();
             })
 
             var resetting = timer.scheduleJob('50 * * * * *', function(){
                 tools.sendMessage(messages.adminNumber, "New day! all records have been reset");
-                tools.resetAll();
+                sched.resetAll();
             })
+
+            break;
 
         case "end":
             sendSurvey.cancel();
             sendReminder.cancel();
             tools.sendMessage(messages.adminNumber, "Scheduled sending has been stopped")
-
+            break;
 
         default: 
             tools.sendMessage(sender, messages.instructions)
