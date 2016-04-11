@@ -1,4 +1,6 @@
-// DATABASE CODE
+//DATABASE
+//FUNCTION: Connects to database
+
 var mongoose = require('mongoose');
 
 // connects to MLab database

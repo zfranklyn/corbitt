@@ -1,3 +1,5 @@
+//Functions for main database interaction
+
 // Users Module
 var User = require('./schemas/user.js')
 var tools = require('./tools.js').tools;
@@ -12,7 +14,9 @@ db.prototype.addUser = function(tel){
   console.log("adding new user, ID: " + tel)
   
 
-  var user = new User({  		number: Number(tel),
+  var user = new User({  		
+                id: Math.floor(Math.random()*10000),
+                number: Number(tel),
 								date: tools.date(),
 								sent: 0,
 								completed: 0,
@@ -20,7 +24,7 @@ db.prototype.addUser = function(tel){
 								reminder2: 0,
 								reminder3: 0,
 								reminder4: 0,
-								messages: [],
+								history: [],
 								totalReminders: 0
                    })
 
@@ -49,51 +53,17 @@ db.prototype.removeUser = function(tel){
   })
 }
 
-// EDIT USER
-// CAN EDIT: id, tel, and reminders for a specific date
-db.prototype.editUser = function(parameter, newParam, date){
-  // if (parameter == "id"){
-
-  // } else if (parameter == "tel"){
-
-  // } else if (parameter == "r1"){
-
-  // } else if (parameter == "r2"){
-
-  // } else if (parameter == "r3"){
-
-  // } else if (parameter == "r4"){
-
-  // } else {
-  //  res.send({  success: 0
-  //      })
-  // }
-
-  // res.send({ success:1,
-  //      parameter:parameter,
-  //      new: newParam
-  //    })  
-  console.log("edit user")
-
-}
-
 // FIND USER in database, retrieve all information
-db.prototype.findUser = function(id){
-	var num = Number(id);
+db.prototype.findUser = function(tel){
+	var num = Number(tel);
 	console.log("Searching for user: " + num);
 	// console.log("searching for ID: " + num);
 	return User.findOne({'number': num});
-
 }
 
-// Check if this user finished
-db.prototype.checkComplete = function(id){
-
-}
-
-// Send survey, or else remind
-db.prototype.sendSurvey = function(text, surveyLink, id){
-	tools.sendMessage(id, text + surveyLink + "&tel=" + id);
+// Send survey
+db.prototype.sendSurvey = function(text, surveyLink, tel, id){
+	tools.sendMessage(tel, text + surveyLink + "&tel=" + id);
 }
 
 db.prototype.allUsers = function(){

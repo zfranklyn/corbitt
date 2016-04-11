@@ -1,18 +1,46 @@
 var express = require('express');
 var router = express.Router();
-
+var db = require('../dbinteraction.js');
 var tools = require('../tools.js').tools
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	date = tools.date();
+	db.allUsers().then(function(users){
+	console.log("user data retrieved from server.");
+	console.log(users);
+	var num_users = users.length;
+	var num_completed = 0, 
+		num_remind_1 = 0, 
+		num_remind_2 = 0, 
+		num_remind_3 = 0, 
+		num_remind_4 = 0;
+	var user_list;
 
-	var num_users = 100;
-	var num_completed = 90;
-	var num_remind_1 = 3;
-	var num_remind_2 = 2;
-	var num_remind_3 = 4;
-	var num_remind_4 = 1;
+	for (var n; n < num_users; n++){
+		if (users[n].completed == true){
+			num_completed =+ 1;
+		}
+
+		if (users[n].reminder1 == true){
+			num_remind_1 =+ 1;
+		}
+
+		if (users[n].reminder2 == true){
+			num_remind_2 =+ 1;
+		}
+
+		if (users[n].reminder3 == true){
+			num_remind_3 =+ 1;
+		}
+
+		if (users[n].reminder4 == true){
+			num_remind_4 =+ 1;
+		}
+	}
+
+	console.log(num_remind_1);
+
 
 	res.render('index', { 	date: date,
 							users: [
@@ -49,6 +77,11 @@ router.get('/', function(req, res, next) {
 						});
 
 });
+
+	})
+
+
+
 
 router.post('/', function(req, res, next) {
 	console.log("posted");

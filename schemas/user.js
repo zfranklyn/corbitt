@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
+	id:String,
 	number: String,
 	date: String,
 	sent: Boolean,
@@ -13,8 +14,7 @@ var userSchema = new Schema({
 	reminder2: Boolean,
 	reminder3: Boolean,
 	reminder4: Boolean,
-	messages: [String],
-	totalReminders: Number
+	history: [],
 })
 
 var User = mongoose.model('database', userSchema);

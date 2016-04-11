@@ -7,6 +7,8 @@ var express = require('express'),
     sched = require('../scheduling.js'),
     timer = require('node-schedule');
 
+var SCHEDULE = false;
+
 /* GET users listing. */
 router.post('/', function(req, res, next) {
 	var sender = Number(req.body.From);
@@ -80,30 +82,38 @@ router.post('/', function(req, res, next) {
             sched.resetAll();
             break;
 
-        case "start":
+        case "starttest":
+            SCHEDULE = true;
             console.log("starting scheduled sending");
             tools.sendMessage(messages.adminNumber, "Starting scheduled sending. TEST RUN.");
 
             var sendSurvey = timer.scheduleJob('0 * * * * *', function(){
-                tools.sendMessage(messages.adminNumber, "Surveys have been sent");
-                sched.sendAll();
+                if (SCHEDULE == true){
+                    tools.sendMessage(messages.adminNumber, "Surveys have been sent");
+                    sched.sendAll();    
+                }
+                
             })     
 
             var sendReminder = timer.scheduleJob('10,20,30 * * * * *', function(){
-                tools.sendMessage(messages.adminNumber, "Reminder has been sent");
-                sched.remindAll();
+                if (SCHEDULE == true){
+                    tools.sendMessage(messages.adminNumber, "Reminder has been sent");
+                    sched.remindAll();
+                }
             })
 
             var resetting = timer.scheduleJob('50 * * * * *', function(){
-                tools.sendMessage(messages.adminNumber, "New day! all records have been reset");
-                sched.resetAll();
+                if (SCHEDULE == true){
+                    tools.sendMessage(messages.adminNumber, "New day! all records have been reset");
+                    sched.resetAll();
+                }
             })
 
             break;
 
-        case "end":
-            sendSurvey.cancel();
-            sendReminder.cancel();
+        case "endtest":
+            SCHEDULE = false;
+            console.log("ending test");
             tools.sendMessage(messages.adminNumber, "Scheduled sending has been stopped")
             break;
 
