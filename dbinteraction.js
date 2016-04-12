@@ -8,15 +8,16 @@ var db = function(){};
 
 // ADD USER
 // This interacts with MongoDB to add a new user
-db.prototype.addUser = function(tel){
+db.prototype.addUser = function(tel, email, id){
 
 
   console.log("adding new user, ID: " + tel)
   
 
   var user = new User({  		
-                id: Math.floor(Math.random()*10000),
+                id: id,
                 number: Number(tel),
+                email: email,
 								date: tools.date(),
 								sent: 0,
 								completed: 0,
@@ -54,11 +55,17 @@ db.prototype.removeUser = function(tel){
 }
 
 // FIND USER in database, retrieve all information
-db.prototype.findUser = function(tel){
-	var num = Number(tel);
-	console.log("Searching for user: " + num);
+db.prototype.findUser = function(id){
+	console.log("Searching for user: " + id);
 	// console.log("searching for ID: " + num);
-	return User.findOne({'number': num});
+	return User.findOne({'id': id});
+}
+
+db.prototype.findUserTel = function(tel){
+  var num = Number(tel);
+  console.log("Searching for user: " + num);
+  // console.log("searching for ID: " + num);
+  return User.findOne({'number': num});
 }
 
 // Send survey

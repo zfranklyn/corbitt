@@ -5,8 +5,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-	id:String,
+	id:Number,
 	number: String,
+	email: String,
 	date: String,
 	sent: Boolean,
 	completed: Boolean,

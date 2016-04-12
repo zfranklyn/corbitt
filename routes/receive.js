@@ -35,46 +35,56 @@ router.post('/', function(req, res, next) {
             break;
 
         case "register":
+            var email = tools.getWord(text, 1);
+            console.log(email);
+            var randomID = Math.floor(Math.random()*10000);
             var REGISTERED = 0;
-            db.findUser(sender).then(function(doc){
-                if (doc != null){
-                    //user already exists
-                    console.log("user already registered")
-                    tools.sendMessage(sender, "You have already registered!");
-                } else {
-                    //user does not exist
-                    console.log("registering now")
-                    db.addUser(sender);
-                    tools.sendMessage(sender, messages.welcome);
-                }
-            })
+            if (email){
+                db.findUserTel(sender).then(function(doc){
+                    if (doc != null){
+                        //user already exists
+                        console.log("user already registered")
+                        tools.sendMessage(sender, "You have already registered!");
+                    } else {
+                        //user does not exist
+                        console.log("registering now")
+                        db.addUser(sender, email, randomID);
+                        tools.sendMessage(sender, messages.welcome + randomID);
+                    }
+                })
+            } else {
+                tools.sendMessage(sender, "To sign up, please text 'register user@example.com");
+            }
+            
             break;
 
-        case "delete":
+        case "admindelete":
             db.removeUser(sender);
             tools.sendMessage(sender, messages.delete);
             break;
 
-        case "listall":
-            var userArray = []
-            db.allUsers().then(function(users){
-                console.log(users)
-            })
-
-            // console.log(userArray.length);
-            break;
-
-        case "send":
+        case "sendsurvey":
             console.log("sending to everyone");
             tools.sendMessage(messages.adminNumber, "Surveys have been sent")
             sched.sendAll();
             break;
 
-        case "remind":
+        case "sendtrimester":
+            console.log("sending trimester survey to email");
+            sched.sendAllTrimester();
+            break;
+
+        case "remindsurvey":
             console.log("reminding everyone");
             tools.sendMessage(messages.adminNumber, "Reminders have been sent")
             sched.remindAll();
             break;
+
+        case "remindtrimester":
+            console.log("reminding everyone");
+            tools.sendMessage(messages.adminNumber, "Reminders have been sent")
+            sched.remindAllTrimester();
+            break;            
 
         case "reset":
             console.log("all profiles have been reset");

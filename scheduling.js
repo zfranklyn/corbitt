@@ -4,6 +4,11 @@ var User = require('./schemas/user.js')
 var tools = require('./tools.js').tools;
 var db = require('./dbinteraction')
 var messages = require('./messages.js')
+
+//mailer
+var nodemailer = require('nodemailer');
+// create reusable transporter object using the default SMTP transport
+var transporter = nodemailer.createTransport('smtps://yceilab%40gmail.com:betheobserver@smtp.gmail.com');
 	
 var sched = function(){};
 
@@ -25,6 +30,41 @@ sched.prototype.sendAll = function(){
 		}
 		
 	})
+	})
+}
+
+//Send TRIMESTER survey
+sched.prototype.sendAllTrimester = function(){
+	User.find().exec().then(function(users){
+		users.forEach(function(element, index, array){
+
+			if (element.sent == false){
+				// setup e-mail data with unicode symbols
+				var mailOptions = {
+				    from: '"Yale Center for Emotional Intelligence" <yceilab@gmail.com>', // sender address
+				    to: element.email, // list of receivers
+				    subject: 'YCEI: Corbett Prep Baseline Survey', // Subject line
+				    text: messages.trimesterText + messages.surveyLinkTrimester + "&tel=" + element.id, // plaintext body
+				    html: '' // html body
+				};
+
+				transporter.sendMail(mailOptions, function(error, info){
+				    if(error){
+				        return console.log(error);
+				    }
+				    console.log('Message sent: ' + info.response);
+				});
+
+				tools.sendMessage(element.number, messages.sendTrimester);
+				element.date = tools.date();
+				element.sent = true;
+				element.save(function(err){
+					if (err) { console.log("failed to update")} else {
+						console.log("updated");
+					}
+				})
+			}
+		})
 	})
 }
 
@@ -62,6 +102,57 @@ sched.prototype.remindAll = function(element){
 						}})
 				} else if (element.reminder4 == 0){
 					db.sendSurvey(messages.reminder4, messages.surveyLink, element.number, element.id)
+					element.reminder4 = 1;
+
+					element.save(function(err){
+						if (err) { console.log("failed to update")} else {
+							console.log("updated");
+						}})
+				} else {
+					// even after 4 reminders, this person has not completed; his/her number is sent to the admin number
+					tools.sendMessage(messages.adminNumber, "WARNING (" + tools.date() + ")" + ": Incomplete after 4 reminders: " + element.number + "ID: " + element.id);
+				}
+
+			}
+			
+		})
+	})
+
+}
+
+sched.prototype.remindAllTrimester = function(element){
+	User.find().exec().then(function(users){
+
+		users.forEach(function(element, index, array){
+			if (element.sent == true && element.completed == false){
+				console.log("user "+ element.number + " has not completed the survey");
+
+				if (element.reminder1 == 0){
+					db.sendSurvey(messages.reminder1_tri, messages.surveyLinkTrimester, element.number, element.id)
+					element.reminder1 = 1;
+
+					element.save(function(err){
+						if (err) { console.log("failed to update")} else {
+							console.log("updated");
+						}})
+				} else if (element.reminder2 == 0){
+					db.sendSurvey(messages.reminder2_tri, messages.surveyLinkTrimester, element.number, element.id)
+					element.reminder2 = 1;
+
+					element.save(function(err){
+						if (err) { console.log("failed to update")} else {
+							console.log("updated");
+						}})
+				} else if (element.reminder3 == 0){
+					db.sendSurvey(messages.reminder3_tri, messages.surveyLinkTrimester, element.number, element.id)
+					element.reminder3 = 1;
+
+					element.save(function(err){
+						if (err) { console.log("failed to update")} else {
+							console.log("updated");
+						}})
+				} else if (element.reminder4 == 0){
+					db.sendSurvey(messages.reminder4_tri, messages.surveyLinkTrimester, element.number, element.id)
 					element.reminder4 = 1;
 
 					element.save(function(err){
