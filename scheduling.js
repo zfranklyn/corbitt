@@ -33,11 +33,12 @@ sched.prototype.sendAll = function(){
 	})
 }
 
-//Send TRIMESTER survey
+//Send TRIMESTER survey to peoples' emails and SMS
 sched.prototype.sendAllTrimester = function(){
 	User.find().exec().then(function(users){
 		users.forEach(function(element, index, array){
 
+			//if we have not yet sent it to you...
 			if (element.sent == false){
 				// setup e-mail data with unicode symbols
 				var mailOptions = {
@@ -55,6 +56,7 @@ sched.prototype.sendAllTrimester = function(){
 				    console.log('Message sent: ' + info.response);
 				});
 
+				console.log("Sending SMS reminder for Trimester Survey");
 				tools.sendMessage(element.number, messages.sendTrimester);
 				element.date = tools.date();
 				element.sent = true;
@@ -120,6 +122,7 @@ sched.prototype.remindAll = function(element){
 
 }
 
+//send text message reminder to all incomplete trimester survey participants
 sched.prototype.remindAllTrimester = function(element){
 	User.find().exec().then(function(users){
 
@@ -171,6 +174,7 @@ sched.prototype.remindAllTrimester = function(element){
 
 }
 
+//reset records for a new day!
 sched.prototype.resetAll = function(){
 	User.find().exec().then(function(users){
 		users.forEach(function(element, index, array){
@@ -201,12 +205,5 @@ sched.prototype.resetAll = function(){
 		})
 	})
 }
-
-
-
-// sched.prototype. = function(){
-// 	return User.find()
-// 				.exec()
-// }
 
 module.exports = new sched;

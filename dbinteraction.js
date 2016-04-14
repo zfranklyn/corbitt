@@ -8,17 +8,19 @@ var db = function(){};
 
 // ADD USER
 // This interacts with MongoDB to add a new user
+// parameters: telephone, email, and randomly generated ID
 db.prototype.addUser = function(tel, email, id){
 
-
-  console.log("adding new user, ID: " + tel)
+  console.log("ADDING NEW USER:\n");
+  console.log("\tTELEPHONE: " + tel + "\n");
+  console.log("\tRANDOM ID: " + id + "\n\n");
   
 
   var user = new User({  		
                 id: id,
                 number: Number(tel),
                 email: email,
-								date: tools.date(),
+								date: tools.date(), //created on today's date
 								sent: 0,
 								completed: 0,
 								reminder1: 0,
@@ -29,42 +31,40 @@ db.prototype.addUser = function(tel, email, id){
 								totalReminders: 0
                    })
 
-  console.log("user created");
-
   user.save(function(err,user){
     if (!err) {
-      console.log("saved");
+      console.log("USER " + id + " has been saved into the database");
     } else {
     	console.log(err);
-      console.log("not saved");
+      console.log("ERROR: USER " + id + " has not been saved into the database");
     }
   });
 
 }
 
-// REMOVE USER
+// REMOVE USER based on telephone number
 db.prototype.removeUser = function(tel){
-	console.log("REMOVING:" + tel);
+	console.log("REMOVING USER (" + tel + ")\n");
   User.remove({ 'number': tel}, function(err){
   	if (!err){
-  		console.log("user removed");
+  		console.log("SUCCESSFUL REMOVAL: USER (" + tel + ") removed");
   	} else {
-  		console.log("failed to remove")
+  		console.log("UNSUCCESSFUL REMOVAL: USER (" + tel + ") has not been removed");
   	}
   })
 }
 
-// FIND USER in database, retrieve all information
+// FIND USER in database based on ID
+// returns the user object
 db.prototype.findUser = function(id){
-	console.log("Searching for user: " + id);
-	// console.log("searching for ID: " + num);
+	console.log("Searching for user based on ID: " + id + "\n");
 	return User.findOne({'id': id});
 }
 
+// FIND USER in database based on telephone
 db.prototype.findUserTel = function(tel){
   var num = Number(tel);
-  console.log("Searching for user: " + num);
-  // console.log("searching for ID: " + num);
+  console.log("Searching for user based on telephone: " + num + "\n");
   return User.findOne({'number': num});
 }
 
