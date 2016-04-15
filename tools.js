@@ -46,11 +46,32 @@ tools.prototype.sendMessage = function(recipient, content){
             // sent back by Twilio for the request. In this case, it is the
             // information about the text messsage you just sent:
      
-            console.log('Message sent on:');
-            console.log(message.dateCreated);
+            console.log('Message sent to: ' + recipient);
+            console.log("Message Content: " + content);   
         } else {
-            console.log('Message failed to send!');
-            console.log(error);
+            console.log('FAILED: Message to: ' + recipient);
+            console.log("FAILED: Message Content: " + content);
+            console.log("FAILURE TYPE: " + error)
+        }
+    });
+}
+
+tools.prototype.sequentialSend = function(recipient, content, ifComplete){
+
+    client.sms.messages.create({
+        to:recipient,
+        from:'12258009253',
+        body:content,
+    }, function(error, message) {
+        if (!error) {
+          ifComplete;
+            console.log('Message sent to: ' + recipient);
+            console.log("Message Content: " + content);     
+
+        } else {
+            console.log('FAILED: Message to: ' + recipient);
+            console.log("FAILED: Message Content: " + content);
+            console.log("FAILURE TYPE: " + error)
         }
     });
 
