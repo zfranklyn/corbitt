@@ -12,7 +12,7 @@ module.exports = {
 	reminder4_tri: "This is reminder 4, the last reminder. The survey can be found here: ",
 	welcome: "Dear Educator: welcome to the RULER 2.0 Study @ Corbett Prep, led by the Yale Center Emotional Intelligence. Your anonymous ID is: ",
 	delete: "Your records have been deleted; thank you for your participation!",
-	instructions: "'register' to sign up, 'listall' to see all users, 'delete' to unsuscribe",
+	instructions: "Hi there! if you have any questions, please contact Franklyn (6509467649) or Dan (5708155914)",
 	surveyLink: "https://yalesurvey.qualtrics.com/SE/?SID=SV_6ExYOH5tOoD1qDz",
 	surveyLinkTrimester:"https://yalesurvey.qualtrics.com/SE/?SID=SV_0VAogcTezW2LL6t",
 	trimesterText:"Dear Educator, thank you for your participation. Please take the following survey at your earliest convenience: ",
