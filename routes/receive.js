@@ -49,13 +49,12 @@ router.post('/', function(req, res, next) {
                         //user does not exist
                         console.log("registering now")
                         db.addUser(sender, email, randomID);
-                        tools.sequentialSend(sender, messages.welcome, 
+                        tools.sequentialSend(sender, messages.welcome1, 
                             tools.sequentialSend(sender, messages.welcome2, 
-                                tools.sequentialSend(sender, messages.welcome5, 
-                                    tools.sendMessage(sender, messages.welcome6)
-                                    )
+                                tools.sendMessage(sender, messages.welcome3, 
                                 )
-                            );
+                            )
+                        );
                         
                         
                         
