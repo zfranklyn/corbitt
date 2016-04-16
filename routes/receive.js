@@ -19,21 +19,6 @@ router.post('/', function(req, res, next) {
     var firstWord = tools.getWord(text,0).toLowerCase();
 
     switch (firstWord){
-        case "admin":
-            switch (tools.getWord(text, 1).toLowerCase()) {
-                case "test":
-                    tools.sendMessage(sender, "server functioning, all is well");
-                    break;
-
-                case "status":
-                    tools.sendMessage(sender, "57" + "/" + "100" + " users have completed the survey")
-                    break;
-                default:
-                    tools.sendMessage(sender, "commands: 'status', 'all', ");
-                    break;
-            }
-            break;
-
         case "register":
             var email = tools.getWord(text, 1);
             console.log(email);
@@ -64,24 +49,24 @@ router.post('/', function(req, res, next) {
             tools.sendMessage(sender, messages.delete);
             break;
 
-        case "sendsurvey":
-            console.log("sending to everyone");
-            tools.sendMessage(messages.adminNumber, "Surveys have been sent")
-            sched.sendAll();
-            break;
+        // case "sendsurvey":
+        //     console.log("sending to everyone");
+        //     tools.sendMessage(messages.adminNumber, "Surveys have been sent")
+        //     sched.sendAll();
+        //     break;
 
-        case "sendtrimester":
+        case "adminsend":
             console.log("sending trimester survey to email");
             sched.sendAllTrimester();
             break;
 
-        case "remindsurvey":
-            console.log("reminding everyone");
-            tools.sendMessage(messages.adminNumber, "Reminders have been sent")
-            sched.remindAll();
-            break;
+        // case "remindsurvey":
+        //     console.log("reminding everyone");
+        //     tools.sendMessage(messages.adminNumber, "Reminders have been sent")
+        //     sched.remindAll();
+        //     break;
 
-        case "remindtrimester":
+        case "adminremind":
             console.log("reminding everyone");
             tools.sendMessage(messages.adminNumber, "Reminders have been sent")
             sched.remindAllTrimester();
@@ -146,8 +131,11 @@ router.post('/', function(req, res, next) {
             })
             break;
 
+        case "admininstructions":
+            tools.sendMessage(sender, messages.adminInstructions);
+
         default: 
-            tools.sendMessage(sender, messages.instructions)
+            tools.sendMessage(sender, messages.instructions);
             break;
     }
 
