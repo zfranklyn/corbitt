@@ -13,6 +13,6 @@ module.exports = {
 	surveyLink: "https://yalesurvey.qualtrics.com/SE/?SID=SV_6ExYOH5tOoD1qDz",
 	surveyLinkTrimester:"https://yalesurvey.qualtrics.com/SE/?SID=SV_0VAogcTezW2LL6t",
 	trimesterText:"Dear Educator, thank you for your participation. Please take the following survey at your earliest convenience: ",
-	"adminInstructions":"'adminsend': send trimester survey. 'adminreset': reset all records (send & remind status). 'adminremind', 'adminstatus'"
+	"adminInstructions":"'adminsend': send trimester survey. 'adminreset': reset all records (send & remind status). 'adminremind', 'adminstatus'",
 	adminNumber: 6509467649
 }
