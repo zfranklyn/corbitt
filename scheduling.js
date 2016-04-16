@@ -130,7 +130,7 @@ sched.prototype.remindAllTrimester = function(element){
 			if (element.sent == true && element.completed == false){
 				console.log("user "+ element.number + " has not completed the survey");
 
-				if (element.reminder1 == 0){
+				if (element.reminder1 == false){
 					db.sendMessage(element.number, messages.reminder1);
 					element.reminder1 = 1;
 
@@ -138,7 +138,7 @@ sched.prototype.remindAllTrimester = function(element){
 						if (err) { console.log("failed to update")} else {
 							console.log("updated");
 						}})
-				} else if (element.reminder2 == 0){
+				} else if (element.reminder2 == false){
 					db.sendMessage(element.number, messages.reminder2);
 					element.reminder2 = 1;
 
@@ -146,7 +146,7 @@ sched.prototype.remindAllTrimester = function(element){
 						if (err) { console.log("failed to update")} else {
 							console.log("updated");
 						}})
-				} else if (element.reminder3 == 0){
+				} else if (element.reminder3 == false){
 					db.sendMessage(element.number, messages.reminder3);
 					element.reminder3 = 1;
 
@@ -154,7 +154,7 @@ sched.prototype.remindAllTrimester = function(element){
 						if (err) { console.log("failed to update")} else {
 							console.log("updated");
 						}})
-				} else if (element.reminder4 == 0){
+				} else if (element.reminder4 == false){
 					db.sendMessage(element.number, messages.reminder4);
 					element.reminder4 = 1;
 
