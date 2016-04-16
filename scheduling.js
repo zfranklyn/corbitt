@@ -131,7 +131,7 @@ sched.prototype.remindAllTrimester = function(element){
 				console.log("user "+ element.number + " has not completed the survey");
 
 				if (element.reminder1 == false){
-					db.sendMessage(element.number, messages.reminder1);
+					tools.sendMessage(element.number, messages.reminder1);
 					element.reminder1 = 1;
 
 					element.save(function(err){
@@ -139,7 +139,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder2 == false){
-					db.sendMessage(element.number, messages.reminder2);
+					tools.sendMessage(element.number, messages.reminder2);
 					element.reminder2 = 1;
 
 					element.save(function(err){
@@ -147,7 +147,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder3 == false){
-					db.sendMessage(element.number, messages.reminder3);
+					tools.sendMessage(element.number, messages.reminder3);
 					element.reminder3 = 1;
 
 					element.save(function(err){
@@ -155,7 +155,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder4 == false){
-					db.sendMessage(element.number, messages.reminder4);
+					tools.sendMessage(element.number, messages.reminder4);
 					element.reminder4 = 1;
 
 					element.save(function(err){
