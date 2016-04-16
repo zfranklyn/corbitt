@@ -87,45 +87,63 @@ router.post('/', function(req, res, next) {
             sched.remindAllTrimester();
             break;            
 
-        case "reset":
+        case "adminreset":
             console.log("all profiles have been reset");
             tools.sendMessage(messages.adminNumber, "New day! all records have been reset")
             sched.resetAll();
             break;
 
-        case "starttest":
-            SCHEDULE = true;
-            console.log("starting scheduled sending");
-            tools.sendMessage(messages.adminNumber, "Starting scheduled sending. TEST RUN.");
+        // case "starttest":
+        //     SCHEDULE = true;
+        //     console.log("starting scheduled sending");
+        //     tools.sendMessage(messages.adminNumber, "Starting scheduled sending. TEST RUN.");
 
-            var sendSurvey = timer.scheduleJob('0 * * * * *', function(){
-                if (SCHEDULE == true){
-                    tools.sendMessage(messages.adminNumber, "Surveys have been sent");
-                    sched.sendAll();    
-                }
+        //     var sendSurvey = timer.scheduleJob('0 * * * * *', function(){
+        //         if (SCHEDULE == true){
+        //             tools.sendMessage(messages.adminNumber, "Surveys have been sent");
+        //             sched.sendAll();    
+        //         }
                 
-            })     
+        //     })     
 
-            var sendReminder = timer.scheduleJob('10,20,30 * * * * *', function(){
-                if (SCHEDULE == true){
-                    tools.sendMessage(messages.adminNumber, "Reminder has been sent");
-                    sched.remindAll();
-                }
+        //     var sendReminder = timer.scheduleJob('10,20,30 * * * * *', function(){
+        //         if (SCHEDULE == true){
+        //             tools.sendMessage(messages.adminNumber, "Reminder has been sent");
+        //             sched.remindAll();
+        //         }
+        //     })
+
+        //     var resetting = timer.scheduleJob('50 * * * * *', function(){
+        //         if (SCHEDULE == true){
+        //             tools.sendMessage(messages.adminNumber, "New day! all records have been reset");
+        //             sched.resetAll();
+        //         }
+        //     })
+
+        //     break;
+
+        // case "endtest":
+        //     SCHEDULE = false;
+        //     console.log("ending test");
+        //     tools.sendMessage(messages.adminNumber, "Scheduled sending has been stopped")
+        //     break;
+
+        case "adminstatus":
+            db.allUsers().then(function(doc){
+                var totalUsers = 0;
+                var completedUsers = 0;
+
+                doc.forEach(function(user){
+                    totalUsers++;
+
+                    if (user.completed == true){
+                        completedUsers++;
+                    }
+                    
+                })
+
+                tools.sendMessage(sender, "Completion Progress: " + completedUsers + "/" + totalUsers);
             })
-
-            var resetting = timer.scheduleJob('50 * * * * *', function(){
-                if (SCHEDULE == true){
-                    tools.sendMessage(messages.adminNumber, "New day! all records have been reset");
-                    sched.resetAll();
-                }
-            })
-
-            break;
-
-        case "endtest":
-            SCHEDULE = false;
-            console.log("ending test");
-            tools.sendMessage(messages.adminNumber, "Scheduled sending has been stopped")
             break;
 
         default: 

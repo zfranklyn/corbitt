@@ -74,8 +74,7 @@ db.prototype.sendSurvey = function(text, surveyLink, tel, id){
 }
 
 db.prototype.allUsers = function(){
-	return User.find()
-				.exec()
+	return User.find();
 }
 
 module.exports = new db;
