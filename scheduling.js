@@ -53,7 +53,7 @@ sched.prototype.sendAllTrimester = function(){
 				    if(error){
 				        return console.log(error);
 				    }
-				    console.log('Message sent: ' + info.response);
+				    console.log('Email sent: ' + info.response);
 				});
 
 				console.log("Sending SMS reminder for Trimester Survey");
@@ -131,7 +131,7 @@ sched.prototype.remindAllTrimester = function(element){
 				console.log("user "+ element.number + " has not completed the survey");
 
 				if (element.reminder1 == 0){
-					db.sendSurvey(messages.reminder1_tri, messages.surveyLinkTrimester, element.number, element.id)
+					db.sendSurvey(messages.reminder1, messages.surveyLinkTrimester, element.number, element.id)
 					element.reminder1 = 1;
 
 					element.save(function(err){
@@ -139,7 +139,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder2 == 0){
-					db.sendSurvey(messages.reminder2_tri, messages.surveyLinkTrimester, element.number, element.id)
+					db.sendSurvey(messages.reminder2, messages.surveyLinkTrimester, element.number, element.id)
 					element.reminder2 = 1;
 
 					element.save(function(err){
@@ -147,7 +147,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder3 == 0){
-					db.sendSurvey(messages.reminder3_tri, messages.surveyLinkTrimester, element.number, element.id)
+					db.sendSurvey(messages.reminder3, messages.surveyLinkTrimester, element.number, element.id)
 					element.reminder3 = 1;
 
 					element.save(function(err){
@@ -155,7 +155,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder4 == 0){
-					db.sendSurvey(messages.reminder4_tri, messages.surveyLinkTrimester, element.number, element.id)
+					db.sendSurvey(messages.reminder4, messages.surveyLinkTrimester, element.number, element.id)
 					element.reminder4 = 1;
 
 					element.save(function(err){
