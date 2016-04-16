@@ -131,7 +131,7 @@ sched.prototype.remindAllTrimester = function(element){
 				console.log("user "+ element.number + " has not completed the survey");
 
 				if (element.reminder1 == 0){
-					db.sendSurvey(messages.reminder1, messages.surveyLinkTrimester, element.number, element.id)
+					db.sendMessage(element.number, messages.reminder1);
 					element.reminder1 = 1;
 
 					element.save(function(err){
@@ -139,7 +139,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder2 == 0){
-					db.sendSurvey(messages.reminder2, messages.surveyLinkTrimester, element.number, element.id)
+					db.sendMessage(element.number, messages.reminder2);
 					element.reminder2 = 1;
 
 					element.save(function(err){
@@ -147,7 +147,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder3 == 0){
-					db.sendSurvey(messages.reminder3, messages.surveyLinkTrimester, element.number, element.id)
+					db.sendMessage(element.number, messages.reminder3);
 					element.reminder3 = 1;
 
 					element.save(function(err){
@@ -155,7 +155,7 @@ sched.prototype.remindAllTrimester = function(element){
 							console.log("updated");
 						}})
 				} else if (element.reminder4 == 0){
-					db.sendSurvey(messages.reminder4, messages.surveyLinkTrimester, element.number, element.id)
+					db.sendMessage(element.number, messages.reminder4);
 					element.reminder4 = 1;
 
 					element.save(function(err){
