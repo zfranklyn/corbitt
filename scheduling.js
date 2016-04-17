@@ -8,14 +8,7 @@ var messages = require('./messages.js')
 //mailer
 var nodemailer = require('nodemailer');
 // create reusable transporter object using the default SMTP transport
-var transporter = nodemailer.createTransport({
-	service: 'Mailgun',
-	auth: {
-		user:'postmaster@sandbox56a064d9bf384602bd0e27d78ccd5598.mailgun.org',
-		pass: 'dbc3a1f7d9b1aca35fcaa67f32b6acf9'
-
-	}
-});
+var transporter = nodemailer.createTransport('smtps://yceilab%40gmail.com:betheobserver@smtp.gmail.com');
 	
 var sched = function(){};
 
