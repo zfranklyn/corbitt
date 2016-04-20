@@ -21,27 +21,37 @@ router.post('/', function(req, res, next) {
     switch (firstWord){
         case "register":
             var email = tools.getWord(text, 1);
-            console.log(email);
+            console.log("\n\nREGISTRATION ATTEMPT:")
+            console.log("User registering with email address: " + email);
             var randomID = Math.floor(Math.random()*10000);
             var REGISTERED = 0;
             if (email){
                 db.findUserTel(sender).then(function(doc){
                     if (doc != null){
                         //user already exists
-                        console.log("user already registered")
+                        console.log("\nFAILED: user already registered\n\n")
                         tools.sendMessage(sender, "You have already registered!");
                     } else {
-                        //user does not exist
-                        console.log("registering now")
-                        db.addUser(sender, email, randomID);
-                        tools.sendMessage(sender, messages.welcome1);
-                        tools.sendMessage(sender, messages.welcome2);
-                        tools.sendMessage(messages.adminNumber, "USER REGISTERED. ID: " + randomID);
+                        console.log("USER DOES NOT YET EXIST");
+                        //check email validity
+                        if (tools.validateEmail(email) && email != "youremail@example.com" ){
+                            //user does not exist
+                            console.log("VALIDATION SUCCESS\N\N")
+                            console.log("USER CREATED: " + email + ", ID: " + randomID);
+                            db.addUser(sender, email, randomID);
+                            tools.sendMessage(sender, messages.welcome1);
+                            tools.sendMessage(sender, messages.welcome2 + randomID);
+                            tools.sendMessage(messages.adminNumber, "USER REGISTERED. ID: " + randomID);
+                        } else {
+                            console.log("FAILED: invalid email\n\n");
+                            tools.sendMessage(sender, "To register, please enter a valid email address");
+                        }
+
                         
                     }
                 })
             } else {
-                tools.sendMessage(sender, "To sign up, please text 'register user@example.com");
+                tools.sendMessage(sender, "To sign up, please text 'register youremail@example.com', but except using your own email address");
             }
             
             break;
@@ -71,12 +81,14 @@ router.post('/', function(req, res, next) {
         case "adminremind":
             console.log("reminding everyone");
             tools.sendMessage(messages.adminNumber, "Reminders have been sent")
+            tools.sendMessage(messages.adminNumber2, "Reminders have been sent")
             sched.remindAllTrimester();
             break;            
 
         case "adminreset":
             console.log("all profiles have been reset");
-            tools.sendMessage(messages.adminNumber, "New day! all records have been reset")
+            tools.sendMessage(messages.adminNumber, "RESET SUCCESSFUL: all records have been wiped");
+            tools.sendMessage(messages.adminNumber2, "RESET SUCCESSFUL: all records have been wiped");
             sched.resetAll();
             break;
 
@@ -119,6 +131,7 @@ router.post('/', function(req, res, next) {
             db.allUsers().then(function(doc){
                 var totalUsers = 0;
                 var completedUsers = 0;
+                var totalSent = 0;
 
                 doc.forEach(function(user){
                     totalUsers++;
@@ -126,15 +139,29 @@ router.post('/', function(req, res, next) {
                     if (user.completed == true){
                         completedUsers++;
                     }
+
+                    if (user.sent ==true){
+                        totalSent++;
+                    }
                     
                 })
 
-                tools.sendMessage(sender, "Completion Progress: " + completedUsers + "/" + totalUsers);
+                tools.sendMessage(sender, "Completion Progress: " + completedUsers + "/" + totalUsers + "\nSent: " + totalSent + "/" +  totalUsers);
             })
             break;
 
+        case "deleteallusers":
+            if (sender == messages.adminNumber || sender == messages.adminNumber2){
+                db.deleteAllUsers();
+                tools.sendMessage(sender, "All users deleted.");
+            } else {
+                tools.sendMessage(sender, "PERMISSION DENIED");
+            }
+            break;            
+
         case "admininstructions":
             tools.sendMessage(sender, messages.adminInstructions);
+            break;
 
         default: 
             tools.sendMessage(sender, messages.instructions);

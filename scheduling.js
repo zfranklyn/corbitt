@@ -45,15 +45,18 @@ sched.prototype.sendAllTrimester = function(){
 				    from: '"Yale Center for Emotional Intelligence" <yceilab@gmail.com>', // sender address
 				    to: element.email, // list of receivers
 				    subject: 'YCEI: Corbett Prep Baseline Survey', // Subject line
-				    text: messages.trimesterText + messages.surveyLinkTrimester + "&tel=" + element.id, // plaintext body
+				    text: messages.trimesterText + messages.surveyLinkTrimester + "&tel=" + element.id + "\n\n The YCEI Contentment Team", // plaintext body
 				    html: '' // html body
 				};
 
 				transporter.sendMail(mailOptions, function(error, info){
 				    if(error){
+				        tools.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + element.id);
 				        return console.log(error);
+
 				    }
 				    console.log('Email sent: ' + info.response);
+				    tools.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + element.id);
 				});
 
 				console.log("Sending SMS reminder for Trimester Survey");
@@ -61,7 +64,9 @@ sched.prototype.sendAllTrimester = function(){
 				element.date = tools.date();
 				element.sent = true;
 				element.save(function(err){
-					if (err) { console.log("failed to update")} else {
+					if (err) { 
+						console.log("failed to update")
+					} else {
 						console.log("updated");
 					}
 				})
@@ -113,6 +118,7 @@ sched.prototype.remindAll = function(element){
 				} else {
 					// even after 4 reminders, this person has not completed; his/her number is sent to the admin number
 					tools.sendMessage(messages.adminNumber, "WARNING (" + tools.date() + ")" + ": Incomplete after 4 reminders: " + element.number + "ID: " + element.id);
+					tools.sendMessage(messages.adminNumber2, "WARNING (" + tools.date() + ")" + ": Incomplete after 4 reminders: " + element.number + "ID: " + element.id);
 				}
 
 			}
@@ -165,6 +171,7 @@ sched.prototype.remindAllTrimester = function(element){
 				} else {
 					// even after 4 reminders, this person has not completed; his/her number is sent to the admin number
 					tools.sendMessage(messages.adminNumber, "WARNING (" + tools.date() + ")" + ": Incomplete after 4 reminders: " + element.number + "ID: " + element.id);
+					tools.sendMessage(messages.adminNumber2, "WARNING (" + tools.date() + ")" + ": Incomplete after 4 reminders: " + element.number + "ID: " + element.id);
 				}
 
 			}

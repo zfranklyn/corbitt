@@ -82,4 +82,10 @@ tools.prototype.getWord = function getWord(str, num) {
     return array[num];
 };
 
+tools.prototype.validateEmail = function validateEmail(email){
+    var re = /\S+@\S+\.\S+/;
+    return re.test(email);  
+}
+
+
 exports.tools = new tools;

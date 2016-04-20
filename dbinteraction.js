@@ -77,4 +77,9 @@ db.prototype.allUsers = function(){
 	return User.find();
 }
 
+db.prototype.deleteAllUsers = function(){
+  User.remove({});
+  console.log("all users removed from collection");
+}
+
 module.exports = new db;
