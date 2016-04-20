@@ -81,24 +81,24 @@ sched.prototype.sendSingleTrimester = function(email, tel, id){
 	// setup e-mail data with unicode symbols
 	var mailOptions = {
 	    from: '"Yale Center for Emotional Intelligence" <yceilab@gmail.com>', // sender address
-	    to: element.email, // list of receivers
+	    to: email, // list of receivers
 	    subject: 'YCEI: Corbett Prep Baseline Survey', // Subject line
-	    text: messages.trimesterText + messages.surveyLinkTrimester + "&tel=" + element.id + "\n\n The YCEI Contentment Team", // plaintext body
+	    text: messages.trimesterText + messages.surveyLinkTrimester + "&tel=" + id + "\n\n The YCEI Contentment Team", // plaintext body
 	    html: '' // html body
 	}
 
 	transporter.sendMail(mailOptions, function(error, info){
 	    if(error){
-	        tools.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + element.id);
+	        tools.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + id);
 	        return console.log(error);
 
 	    }
 	    console.log('Email sent: ' + info.response);
-	    tools.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + element.id);
+	    tools.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + id);
 	});
 
 	console.log("Sending SMS reminder for Trimester Survey");
-	tools.sendMessage(element.number, messages.sendTrimester);
+	tools.sendMessage(tel, messages.sendTrimester);
 
 
 }
