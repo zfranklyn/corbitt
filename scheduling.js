@@ -75,6 +75,7 @@ sched.prototype.sendAllTrimester = function(){
 	})
 }
 
+
 //Remind all users who have received, but not yet completed the survey
 sched.prototype.remindAll = function(element){
 	User.find().exec().then(function(users){
