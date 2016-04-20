@@ -38,10 +38,11 @@ router.post('/', function(req, res, next) {
                             //user does not exist
                             console.log("VALIDATION SUCCESS\N\N")
                             console.log("USER CREATED: " + email + ", ID: " + randomID);
-                            db.addUser(sender, email, randomID);
+                            db.addUser(sender, email, randomID, true);
                             tools.sendMessage(sender, messages.welcome1);
                             tools.sendMessage(sender, messages.welcome2 + randomID);
                             tools.sendMessage(messages.adminNumber, "USER REGISTERED. ID: " + randomID);
+                            sched.sendSingleTrimester(email, sender, randomID);
                         } else {
                             console.log("FAILED: invalid email\n\n");
                             tools.sendMessage(sender, "To register, please enter a valid email address");

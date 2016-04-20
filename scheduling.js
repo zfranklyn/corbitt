@@ -75,6 +75,34 @@ sched.prototype.sendAllTrimester = function(){
 	})
 }
 
+sched.prototype.sendSingleTrimester = function(email, tel, id){
+
+
+	// setup e-mail data with unicode symbols
+	var mailOptions = {
+	    from: '"Yale Center for Emotional Intelligence" <yceilab@gmail.com>', // sender address
+	    to: element.email, // list of receivers
+	    subject: 'YCEI: Corbett Prep Baseline Survey', // Subject line
+	    text: messages.trimesterText + messages.surveyLinkTrimester + "&tel=" + element.id + "\n\n The YCEI Contentment Team", // plaintext body
+	    html: '' // html body
+	}
+
+	transporter.sendMail(mailOptions, function(error, info){
+	    if(error){
+	        tools.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + element.id);
+	        return console.log(error);
+
+	    }
+	    console.log('Email sent: ' + info.response);
+	    tools.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + element.id);
+	});
+
+	console.log("Sending SMS reminder for Trimester Survey");
+	tools.sendMessage(element.number, messages.sendTrimester);
+
+
+}
+
 
 //Remind all users who have received, but not yet completed the survey
 sched.prototype.remindAll = function(element){

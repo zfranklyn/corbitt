@@ -9,7 +9,7 @@ var db = function(){};
 // ADD USER
 // This interacts with MongoDB to add a new user
 // parameters: telephone, email, and randomly generated ID
-db.prototype.addUser = function(tel, email, id){
+db.prototype.addUser = function(tel, email, id, sent){
 
   console.log("ADDING NEW USER:\n");
   console.log("\tTELEPHONE: " + tel + "\n");
@@ -21,7 +21,7 @@ db.prototype.addUser = function(tel, email, id){
                 number: Number(tel),
                 email: email,
 								date: tools.date(), //created on today's date
-								sent: 0,
+								sent: sent,
 								completed: 0,
 								reminder1: 0,
 								reminder2: 0,
