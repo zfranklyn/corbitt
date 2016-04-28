@@ -53,25 +53,33 @@ sched.prototype.sendAllTrimester = function(){
 				    if(error){
 				        tools.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + element.id);
 				        tools.sendMessage(messages.adminNumber2, "FAILED: EMAIL TO USER " + element.id);
-				        return console.log(error);
+				        return console.log("EMAIL ERROR", error);
+
+				    } else {
+					    console.log('Email sent: ' + info.response);
+					    tools.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + element.id);
+					    tools.sendMessage(messages.adminNumber2, "SUCCESS: EMAIL TO USER " + element.id);
+
+					    // email sent, now send SMS reminder and save sent state
+						console.log("Sending SMS reminder for Trimester Survey");
+						tools.sendMessage(element.number, messages.sendTrimester);
+						element.date = tools.date();
+						element.sent = true;
+						element.save(function(err){
+							if (err) { 
+								console.log("failed to update")
+							} else {
+								console.log("updated");
+							}
+						})
 
 				    }
-				    console.log('Email sent: ' + info.response);
-				    tools.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + element.id);
-				    tools.sendMessage(messages.adminNumber2, "SUCCESS: EMAIL TO USER " + element.id);
+
+
+
 				});
 
-				console.log("Sending SMS reminder for Trimester Survey");
-				tools.sendMessage(element.number, messages.sendTrimester);
-				element.date = tools.date();
-				element.sent = true;
-				element.save(function(err){
-					if (err) { 
-						console.log("failed to update")
-					} else {
-						console.log("updated");
-					}
-				})
+
 			}
 		})
 	})
