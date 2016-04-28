@@ -19,6 +19,7 @@ router.post('/', function(req, res, next) {
     var firstWord = tools.getWord(text,0).toLowerCase();
 
     switch (firstWord){
+        //USER REGISTRATION
         case "register":
             var email = tools.getWord(text, 1);
             console.log("\n\nREGISTRATION ATTEMPT:")
@@ -30,7 +31,7 @@ router.post('/', function(req, res, next) {
                     if (doc != null){
                         //user already exists
                         console.log("\nFAILED: user already registered\n\n")
-                        tools.sendMessage(sender, "You have already registered!");
+                        tools.sendMessage(sender, "You have already registered! To delete your records, reply with 'admindelete'");
                     } else {
                         console.log("USER DOES NOT YET EXIST");
                         //check email validity
@@ -42,25 +43,29 @@ router.post('/', function(req, res, next) {
                             tools.sendMessage(sender, messages.welcome1);
                             tools.sendMessage(sender, messages.welcome2 + randomID);
                             tools.sendMessage(messages.adminNumber, "USER REGISTERED. ID: " + randomID);
-                            sched.sendSingleTrimester(email, sender, randomID);
                         } else {
                             console.log("FAILED: invalid email\n\n");
                             tools.sendMessage(sender, "To register, please enter a valid email address");
                         }
-
-                        
                     }
                 })
             } else {
                 tools.sendMessage(sender, "To sign up, please text 'register youremail@example.com', but except using your own email address");
             }
-            
             break;
 
         case "admindelete":
             db.removeUser(sender);
             tools.sendMessage(sender, messages.delete);
             break;
+
+        case "id":
+        //user queries for ID
+            db.findUserTel(sender).then(function(doc){
+                tools.sendMessage(sender, "Dear Educator, here is your anonymous ID: " + doc.id);
+            })
+            break;
+
 
         // case "sendsurvey":
         //     console.log("sending to everyone");
@@ -69,8 +74,13 @@ router.post('/', function(req, res, next) {
         //     break;
 
         case "adminsend":
-            console.log("sending trimester survey to email");
-            sched.sendAllTrimester();
+            if (sender == messages.adminNumber || sender == messages.adminNumber2){
+                console.log("sending trimester survey to email");
+                sched.sendAllTrimester();    
+            } else {
+                tools.sendMessage(sender, "ACCESS DENIED");
+            }
+            
             break;
 
         // case "remindsurvey":
@@ -80,17 +90,26 @@ router.post('/', function(req, res, next) {
         //     break;
 
         case "adminremind":
-            console.log("reminding everyone");
-            tools.sendMessage(messages.adminNumber, "Reminders have been sent")
-            tools.sendMessage(messages.adminNumber2, "Reminders have been sent")
-            sched.remindAllTrimester();
+            if (sender == messages.adminNumber || sender == messages.adminNumber2){
+                console.log("reminding everyone");
+                tools.sendMessage(messages.adminNumber, "Reminders have been sent")
+                tools.sendMessage(messages.adminNumber2, "Reminders have been sent")
+                sched.remindAllTrimester();  
+            } else {
+                tools.sendMessage(sender, "ACCESS DENIED");
+            }
             break;            
 
         case "adminreset":
-            console.log("all profiles have been reset");
-            tools.sendMessage(messages.adminNumber, "RESET SUCCESSFUL: all records have been wiped");
-            tools.sendMessage(messages.adminNumber2, "RESET SUCCESSFUL: all records have been wiped");
-            sched.resetAll();
+            if (sender == messages.adminNumber || sender == messages.adminNumber2){
+                console.log("all profiles have been reset");
+                tools.sendMessage(messages.adminNumber, "RESET SUCCESSFUL: all records have been wiped");
+                tools.sendMessage(messages.adminNumber2, "RESET SUCCESSFUL: all records have been wiped");
+                sched.resetAll();
+            } else {
+                tools.sendMessage(sender, "ACCESS DENIED");
+            }
+
             break;
 
         // case "starttest":
