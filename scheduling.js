@@ -51,7 +51,7 @@ sched.prototype.sendAllTrimester = function(){
 
 				transporter.sendMail(mailOptions, function(error, info){
 				    if(error){
-				        tools.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + element.id);
+				        // tools.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + element.id);
 				        // tools.sendMessage(messages.adminNumber2, "FAILED: EMAIL TO USER " + element.id);
 				        return console.log("EMAIL ERROR", error);
 
