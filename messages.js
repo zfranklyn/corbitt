@@ -12,7 +12,7 @@ module.exports = {
 	instructions: "Hi there! if you have any questions, please contact Franklyn (6509467649) or Dan (5708155914)",
 	surveyLink: "https://yalesurvey.qualtrics.com/SE/?SID=SV_6ExYOH5tOoD1qDz",
 	surveyLinkTrimester:"https://yalesurvey.qualtrics.com/SE/?SID=SV_0VAogcTezW2LL6t",
-	trimesterText:"Dear Educator, thank you for your participation. Please take the following survey at your earliest convenience: ",
+	trimesterText:"Dear Educator, thank you for your participation; your input in the first survey has been invaluable! In this second (shorter) survey, we hope to find out a bit more about what you think about the RULER program. Please take the following survey at your earliest convenience: ",
 	adminInstructions:"'adminsend': send trimester survey. 'adminreset': reset all records (send & remind status). 'adminremind', 'adminstatus'",
 	adminNumber: 16509467649,
 	adminNumber2: 15708155914
