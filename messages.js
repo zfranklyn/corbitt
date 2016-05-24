@@ -1,7 +1,7 @@
 // List of Messages
 module.exports = {
 	send: "Dear Corbett Prep team member, please complete the following survey at your earliest convenience: ",
-	sendTrimester: "Dear Educator, we have sent the Baseline Survey to your email. Thank you for your participation!",
+	sendTrimester: "Dear Educator, we have sent the second (shorter) part of the Baseline Survey to your email. Thanks for your participation!",
 	reminder1: "We've noticed that you haven't started the survey yet. You can find it in your inbox!",
 	reminder2: "Hi there! This is the second reminder to complete the survey. The survey can be found in your inbox.",
 	reminder3: "Hi there! This is the third reminder to complete the survey. The survey can be found in your inbox.",
