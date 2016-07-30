@@ -9,7 +9,7 @@ var messages = require('./messages.js')
 var nodemailer = require('nodemailer');
 // create reusable transporter object using the default SMTP transport
 var transporter = nodemailer.createTransport('smtps://yceilab%40gmail.com:betheobserver@smtp.gmail.com');
-	
+
 var sched = function(){};
 
 //Send survey to all users who have not yet received a survey
