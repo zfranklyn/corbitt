@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../dbinteraction.js');
-var tools = require('../tools.js').tools
+var db = require('../db.js');
+var misc = require('../misc.js').misc;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	date = tools.date();
+	date = misc.date();
 	db.allUsers().then(function(users){
 	console.log("user data retrieved from server.");
 	console.log(users);

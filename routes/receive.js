@@ -1,151 +1,119 @@
 var express = require('express'),
     router = express.Router(),
-    tools = require('../tools.js').tools,
-    database = require('../db.js'),
-    db = require('../dbinteraction.js'),
+    misc = require('../misc.js'),
+    db = require('../db.js'),
     messages = require('../messages.js'),
-    sched = require('../scheduling.js'),
-    timer = require('node-schedule');
+    study = require('../study.js'),
+    timer = require('node-schedule'),
+    twilio = require('../twilio.js');
 
 var SCHEDULE = false;
 
-/* GET users listing. */
+// When the server receives a text message to ./receive,
+// this is the logic that parses it
 router.post('/', function(req, res, next) {
+    // who is our sender? number
 	var sender = Number(req.body.From);
+    // what's the body of the message?
     var text = req.body.Body;
 
     console.log("MESSAGE RECEIVED: " + text);
 
-    var firstWord = tools.getWord(text,0).toLowerCase();
-
+    // what's the command? should be the first word of the message
+    var firstWord = misc.getWord(text,0).toLowerCase();
+    console.log(firstWord);
+    // depending on command:
     switch (firstWord){
         //USER REGISTRATION
         case "register":
-            var email = tools.getWord(text, 1);
+            var email = misc.getWord(text, 1);
             console.log("\n\nREGISTRATION ATTEMPT:")
             console.log("User registering with email address: " + email);
-            var randomID = Math.floor(Math.random()*10000);
+            var randomID = Math.floor(Math.random()*100000);
             var REGISTERED = 0;
+
+            // did the user enter an email?
             if (email){
-                db.findUserTel(sender).then(function(doc){
-                    if (doc != null){
-                        //user already exists
+                db.returnUserBasedOnTel(sender).then(function(doc){
+
+                    if (doc != null){ //user already exists
                         console.log("\nFAILED: user already registered\n\n")
-                        tools.sendMessage(sender, "You have already registered! To delete your records, reply with 'admindelete'");
+                        twilio.sendMessage(sender, "You have already registered! To delete your existing records, reply with 'admindelete'");
                     } else {
                         console.log("USER DOES NOT YET EXIST");
                         //check email validity
-                        if (tools.validateEmail(email) && email != "youremail@example.com" ){
+                        if (misc.validateEmail(email) && email != "youremail@example.com" ){
                             //user does not exist
                             console.log("VALIDATION SUCCESS\N\N")
                             console.log("USER CREATED: " + email + ", ID: " + randomID);
-                            db.addUser(sender, email, randomID, true);
-                            tools.sendMessage(sender, messages.welcome1);
-                            tools.sendMessage(sender, messages.welcome2 + randomID);
-                            tools.sendMessage(messages.adminNumber, "USER REGISTERED. ID: " + randomID);
+                            db.addNewUser(sender, email, randomID, true);
+                            twilio.sendMessage(sender, messages.welcome1);
+                            twilio.sendMessage(sender, messages.welcome2 + randomID);
+                            twilio.sendMessage(messages.adminNumber, "USER REGISTERED. ID: " + randomID);
                         } else {
                             console.log("FAILED: invalid email\n\n");
-                            tools.sendMessage(sender, "To register, please enter a valid email address");
+                            twilio.sendMessage(sender, "To register, please enter a valid email address");
                         }
                     }
                 })
             } else {
-                tools.sendMessage(sender, "To sign up, please text 'register youremail@example.com', but except using your own email address");
+                twilio.sendMessage(sender, "To sign up, please text 'register youremail@example.com', except using your own email address");
             }
             break;
 
+        // deletes the sender
         case "admindelete":
-            db.removeUser(sender);
-            tools.sendMessage(sender, messages.delete);
+            db.removeUserBasedOnTel(sender);
+            twilio.sendMessage(sender, messages.delete);
             break;
 
+        // sends back the user his/her ID
         case "id":
-        //user queries for ID
             db.findUserTel(sender).then(function(doc){
-                tools.sendMessage(sender, "Dear Educator, here is your anonymous ID: " + doc.id);
+                twilio.sendMessage(sender, "Dear Educator, here is your anonymous ID: " + doc.id);
             })
             break;
 
-
-        // case "sendsurvey":
-        //     console.log("sending to everyone");
-        //     tools.sendMessage(messages.adminNumber, "Surveys have been sent")
-        //     sched.sendAll();
-        //     break;
-
+        // ADMIN-ONLY
+            // TODO
+            // sends survey to everyone
         case "adminsend":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
                 console.log("sending trimester survey to email");
-                sched.sendAllTrimester();    
+                sched.sendAllTrimester();
             } else {
-                tools.sendMessage(sender, "ACCESS DENIED");
+                twilio.sendMessage(sender, "ACCESS DENIED");
             }
-            
+
             break;
 
-        // case "remindsurvey":
-        //     console.log("reminding everyone");
-        //     tools.sendMessage(messages.adminNumber, "Reminders have been sent")
-        //     sched.remindAll();
-        //     break;
-
+        // ADMIN-ONLY
+            // TODO
+            // sends reminder to everyone
         case "adminremind":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
                 console.log("reminding everyone");
-                tools.sendMessage(messages.adminNumber, "Reminders have been sent")
-                tools.sendMessage(messages.adminNumber2, "Reminders have been sent")
-                sched.remindAllTrimester();  
+                twilio.sendMessage(messages.adminNumber, "Reminders have been sent")
+                twilio.sendMessage(messages.adminNumber2, "Reminders have been sent")
+                sched.remindAllTrimester();
             } else {
-                tools.sendMessage(sender, "ACCESS DENIED");
+                twilio.sendMessage(sender, "ACCESS DENIED");
             }
-            break;            
+            break;
 
+        // ADMIN-ONLY
+            // resets the records for today
         case "adminreset":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
                 console.log("all profiles have been reset");
-                tools.sendMessage(messages.adminNumber, "RESET SUCCESSFUL: all records have been wiped");
-                tools.sendMessage(messages.adminNumber2, "RESET SUCCESSFUL: all records have been wiped");
+                twilio.sendMessage(messages.adminNumber, "RESET SUCCESSFUL: all records have been wiped");
+                twilio.sendMessage(messages.adminNumber2, "RESET SUCCESSFUL: all records have been wiped");
                 sched.resetAll();
             } else {
-                tools.sendMessage(sender, "ACCESS DENIED");
+                twilio.sendMessage(sender, "ACCESS DENIED");
             }
 
             break;
-
-        // case "starttest":
-        //     SCHEDULE = true;
-        //     console.log("starting scheduled sending");
-        //     tools.sendMessage(messages.adminNumber, "Starting scheduled sending. TEST RUN.");
-
-        //     var sendSurvey = timer.scheduleJob('0 * * * * *', function(){
-        //         if (SCHEDULE == true){
-        //             tools.sendMessage(messages.adminNumber, "Surveys have been sent");
-        //             sched.sendAll();    
-        //         }
-                
-        //     })     
-
-        //     var sendReminder = timer.scheduleJob('10,20,30 * * * * *', function(){
-        //         if (SCHEDULE == true){
-        //             tools.sendMessage(messages.adminNumber, "Reminder has been sent");
-        //             sched.remindAll();
-        //         }
-        //     })
-
-        //     var resetting = timer.scheduleJob('50 * * * * *', function(){
-        //         if (SCHEDULE == true){
-        //             tools.sendMessage(messages.adminNumber, "New day! all records have been reset");
-        //             sched.resetAll();
-        //         }
-        //     })
-
-        //     break;
-
-        // case "endtest":
-        //     SCHEDULE = false;
-        //     console.log("ending test");
-        //     tools.sendMessage(messages.adminNumber, "Scheduled sending has been stopped")
-        //     break;
 
         case "adminstatus":
             db.allUsers().then(function(doc){
@@ -163,28 +131,20 @@ router.post('/', function(req, res, next) {
                     if (user.sent ==true){
                         totalSent++;
                     }
-                    
+
                 })
 
-                tools.sendMessage(sender, "Completion Progress: " + completedUsers + "/" + totalUsers + "\nSent: " + totalSent + "/" +  totalUsers);
+                twilio.sendMessage(sender, "Completion Progress: " + completedUsers + "/" + totalUsers + "\nSent: " + totalSent + "/" +  totalUsers);
             })
             break;
 
-        case "deleteallusers":
-            if (sender == messages.adminNumber || sender == messages.adminNumber2){
-                db.deleteAllUsers();
-                tools.sendMessage(sender, "All users deleted.");
-            } else {
-                tools.sendMessage(sender, "PERMISSION DENIED");
-            }
-            break;            
-
         case "admininstructions":
-            tools.sendMessage(sender, messages.adminInstructions);
+            twilio.sendMessage(sender, messages.adminInstructions);
             break;
 
-        default: 
-            tools.sendMessage(sender, messages.instructions);
+        default:
+            console.log("default");
+            twilio.sendMessage(sender, messages.instructions);
             break;
     }
 
