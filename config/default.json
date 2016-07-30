@@ -1,4 +1,0 @@
-{
-	"productionDB": "mongodb://zfranklyn:legend123@ds025449.mlab.com:25449/ycei",
-	"testDB" : " mongodb://zfranklyn:legend123@ds031995.mlab.com:31995/corbett_test"
-}
