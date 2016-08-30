@@ -11,6 +11,7 @@ module.exports = {
     delete: "Your records have been deleted; thank you for your participation!",
     instructions: "Hi there! if you have any questions, please contact Franklyn (6509467649) or Dan (5708155914)",
     surveyLink: "https://yalesurvey.qualtrics.com/SE/?SID=SV_6ExYOH5tOoD1qDz",
+    textSurveyURLBase: "franklyn.xyz",
     surveyParam: "&tel=",
     surveyLinkTrimester: "https://yalesurvey.qualtrics.com/SE/?SID=SV_0VAogcTezW2LL6t",
     adminInstructions: "'adminsend': send trimester survey. 'adminreset': reset all records (send & remind status). 'adminremind', 'adminstatus'",

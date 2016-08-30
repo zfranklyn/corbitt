@@ -2,7 +2,7 @@
 var db = function (){};
 
 // Users Module
-var User = require('./schemas/userSchema.js')
+var User = require('./schemas/userSchema.js');
 var misc = require('./misc.js').misc;
 
 // ADD USER
@@ -18,13 +18,13 @@ db.prototype.addNewUser = function (tel, email, id, sent) {
         id: id,
         number: Number(tel),
         email: email,
-        date: tools.date(), //created on today's date
+        date: misc.date(), //created on today's date
         sent: sent,
         completed: 0,
         reminderNumber: 0,
         history: [],
         totalReminders: 0
-    })
+    });
 
     user.save(function (err, user) {
         if (!err) {
@@ -64,7 +64,7 @@ db.prototype.returnUserBasedOnTel = function (tel) {
 }
 
 // RETURN ALL USERS
-db.prototype.allUsers = function () {
+db.prototype.allUsers = function() {
     return User.find();
 }
 
@@ -89,7 +89,7 @@ db.prototype.resetAllRecordsFromToday = function () {
             element.sent = false;
             element.completed = false;
             element.completionTime = "";
-            element.date = tools.date(); // new day today
+            element.date = misc.date(); // new day today
 
             element.save();
 

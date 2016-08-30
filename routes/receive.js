@@ -1,12 +1,12 @@
 var express = require('express'),
     router = express.Router(),
-    misc = require('../misc.js'),
+    misc = require('../misc.js').misc,
     db = require('../db.js'),
     messages = require('../messages.js'),
     study = require('../study.js'),
     timer = require('node-schedule'),
-    twilio = require('../twilio.js');
-
+    twilio = require('../twilio.js'),
+    sched = require("../scheduling.js");
 var SCHEDULE = false;
 
 // When the server receives a text message to ./receive,
@@ -35,7 +35,6 @@ router.post('/', function(req, res, next) {
             // did the user enter an email?
             if (email){
                 db.returnUserBasedOnTel(sender).then(function(doc){
-
                     if (doc != null){ //user already exists
                         console.log("\nFAILED: user already registered\n\n")
                         twilio.sendMessage(sender, "You have already registered! To delete your existing records, reply with 'admindelete'");
@@ -44,9 +43,12 @@ router.post('/', function(req, res, next) {
                         //check email validity
                         if (misc.validateEmail(email) && email != "youremail@example.com" ){
                             //user does not exist
-                            console.log("VALIDATION SUCCESS\N\N")
+                            console.log("VALIDATION SUCCESS\n\n")
                             console.log("USER CREATED: " + email + ", ID: " + randomID);
+
+
                             db.addNewUser(sender, email, randomID, true);
+
                             twilio.sendMessage(sender, messages.welcome1);
                             twilio.sendMessage(sender, messages.welcome2 + randomID);
                             twilio.sendMessage(messages.adminNumber, "USER REGISTERED. ID: " + randomID);
@@ -76,11 +78,24 @@ router.post('/', function(req, res, next) {
 
         // ADMIN-ONLY
             // TODO
-            // sends survey to everyone
+            // sends survey via EMAIL to everyone
+        case "adminsendemail":
+            if (sender == messages.adminNumber || sender == messages.adminNumber2){
+                console.log("sending survey via email");
+                sched.sendAllEmail();
+            } else {
+                twilio.sendMessage(sender, "ACCESS DENIED");
+            }
+
+            break;
+
+        // ADMIN-ONLY
+        // TODO
+        // sends survey to everyone
         case "adminsend":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
-                console.log("sending trimester survey to email");
-                sched.sendAllTrimester();
+                console.log("sending survey via text");
+                sched.sendAllText();
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
@@ -144,6 +159,7 @@ router.post('/', function(req, res, next) {
 
         default:
             console.log("default");
+            //DEBUG
             twilio.sendMessage(sender, messages.instructions);
             break;
     }
