@@ -9,7 +9,7 @@ var twilio = require('./twilio.js');
 var emailing = require('./email.js');
 
 
-scheduling.prototype.sendAllEmail = function(){
+scheduling.prototype.sendAll= function(throughEmail){
 
     User.find({}, function(err, allUsers) {
 
@@ -21,25 +21,21 @@ scheduling.prototype.sendAllEmail = function(){
             var customSurveyURL = messages.textSurveyURLBase + messages.surveyParam + id;
             var emailText = messages.email.SurveyText1 + customSurveyURL + messages.email.SurveyText2;
 
-            if (user.sent == false){ //user has already been sent survey
-                //do nothing
-
+            if (user.sent == true){ //user has already been sent survey
+                console.log("user " + id + " has already received a survey");
             } else { //user has not yet been sent survey; send it!
-                console.log("user num: " + num);
+                console.log("user " + id + " is being sent a survey");
                 twilio.sendMessage(num, "Hello, today's YCEI survey can be found here: " + customSurveyURL);
-                emailing.sendEmail(messages.email.originEmail, email, messages.emailSubject, emailText);
+
+                if (throughEmail){
+                    emailing.sendEmail(messages.email.originEmail, email, messages.emailSubject, emailText);
+                }
 
                 user.sent = true;
                 user.save();
-
             }
-
         })
-
     });
-
-
-
 };
 
 

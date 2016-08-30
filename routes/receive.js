@@ -81,8 +81,8 @@ router.post('/', function(req, res, next) {
             // sends survey via EMAIL to everyone
         case "adminsendemail":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
-                console.log("sending survey via email");
-                sched.sendAllEmail();
+                console.log("COMMAND: Survey Via Email and text");
+                sched.sendAll(true);
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
@@ -94,8 +94,8 @@ router.post('/', function(req, res, next) {
         // sends survey to everyone
         case "adminsend":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
-                console.log("sending survey via text");
-                sched.sendAllText();
+                console.log("sending survey via only text");
+                sched.sendAll(false);
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
@@ -110,7 +110,7 @@ router.post('/', function(req, res, next) {
                 console.log("reminding everyone");
                 twilio.sendMessage(messages.adminNumber, "Reminders have been sent")
                 twilio.sendMessage(messages.adminNumber2, "Reminders have been sent")
-                sched.remindAllTrimester();
+                sched.remindAll();
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
