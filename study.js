@@ -11,6 +11,10 @@ var messages = require('./messages.js');
 var User = require('./schemas/userSchema.js');
 var misc = require('./misc.js').misc;
 
+var nodemailer = require('nodemailer');
+var config = require('config');
+// create reusable transporter object using the default SMTP transport
+var transporter = nodemailer.createTransport(config.get('email'));
 
 // TEXT survey link to all users
 // ONLY IF user has not yet received the survey
@@ -93,7 +97,7 @@ study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
 // EMAIL send survey link to all users
 study.prototype.emailCustomizedSurveyLinkToAllUsers = function(){
     User.find().exec().then(function(users){
-        users.forEach(function(user, index, array){
+        users.forEach(function(user){
 
             //if we have not yet sent it to you...
             if (user.sent == false){
@@ -109,6 +113,8 @@ study.prototype.emailCustomizedSurveyLinkToAllUsers = function(){
                                 messages.email.SurveyText2,
                     html: ""
                 };
+
+                console.log(mailOptions);
                 
                 transporter.sendMail(mailOptions, function(error, info){
                     
