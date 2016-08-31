@@ -82,7 +82,7 @@ router.post('/', function(req, res, next) {
         case "adminsendemail":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
                 console.log("COMMAND: Survey Via Email and text");
-                sched.sendAll(true);
+                study.emailCustomizedSurveyLinkToAllUsers();
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
@@ -95,7 +95,7 @@ router.post('/', function(req, res, next) {
         case "adminsend":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
                 console.log("sending survey via only text");
-                sched.sendAll(false);
+                study.textCustomizedSurveyLinkToAllUsers();
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
@@ -119,7 +119,7 @@ router.post('/', function(req, res, next) {
         // ADMIN-ONLY
             // resets the records for today
         case "adminreset":
-            if (sender == messages.adminNumber || sender == messages.adminNumber2){
+            if (sender == messages.adminNumber || sender == messages.adminNumber2){s
                 console.log("all profiles have been reset");
                 twilio.sendMessage(messages.adminNumber, "RESET SUCCESSFUL: all records have been wiped");
                 twilio.sendMessage(messages.adminNumber2, "RESET SUCCESSFUL: all records have been wiped");
