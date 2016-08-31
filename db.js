@@ -21,7 +21,7 @@ db.prototype.addNewUser = function (tel, email, id, sent) {
         date: misc.date(), //created on today's date
         sent: sent,
         completed: 0,
-        reminderNumber: 0,
+        numberOfRemindersToday: 0,
         history: [],
         totalReminders: 0
     });

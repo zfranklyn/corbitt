@@ -1,11 +1,11 @@
 // List of Messages
 module.exports = {
-    send: "Dear Corbett Prep team member, please complete the following survey at your earliest convenience: ",
+    send: "Dear Corbett Prep Educator, today's survey is avilable at: ",
     textMessage_SurveySentToEmail: "Dear Educator, we have sent a survey to your email inbox. Thanks for your participation!",
-    reminder1: "We've noticed that you haven't started the survey yet. You can find it in your inbox! Let us know if you think there's been an error.",
-    reminder2: "Hi there! This is the second reminder to complete the survey. The survey can be found in your inbox.",
-    reminder3: "Hi there! This is the third reminder to complete the survey. The survey can be found in your inbox.",
-    reminder4: "Hi there! This is the fourth and last reminder to complete the survey. We really hope to have your voice heard in this collaboration. ",
+    reminder1: "Hi there! This is just a gentle reminder that the survey for today is available.",
+    reminder2: "Hi there! This is the second gentle reminder to complete the survey.",
+    reminder3: "Hi there! This is the third little reminder to complete the survey.",
+    reminder4: "Hi there! We really hope to have your voice heard in this collaboration. Let us know if you think there's been an error in our records!",
     welcome1: "Dear Corbett Prep Educator, welcome to the RULER 2.0 Wellbeing Study, a collaboration led by the Yale Center Emotional Intelligence!",
     welcome2: "This message indicates that you're now a part of our survey system. We take your privacy very seriously. Your randomly assigned ID is: ",
     delete: "Your records have been deleted; thank you for your participation!",

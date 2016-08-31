@@ -47,7 +47,7 @@ router.post('/', function(req, res, next) {
                             console.log("USER CREATED: " + email + ", ID: " + randomID);
 
 
-                            db.addNewUser(sender, email, randomID, true);
+                            db.addNewUser(sender, email, randomID, false);
 
                             twilio.sendMessage(sender, messages.welcome1);
                             twilio.sendMessage(sender, messages.welcome2 + randomID);
@@ -109,8 +109,7 @@ router.post('/', function(req, res, next) {
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
                 console.log("reminding everyone");
                 twilio.sendMessage(messages.adminNumber, "Reminders have been sent")
-                twilio.sendMessage(messages.adminNumber2, "Reminders have been sent")
-                sched.remindAll();
+                study.textReminderToAllUsersToCompleteSurvey();
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
@@ -119,11 +118,12 @@ router.post('/', function(req, res, next) {
         // ADMIN-ONLY
             // resets the records for today
         case "adminreset":
-            if (sender == messages.adminNumber || sender == messages.adminNumber2){s
+            if (sender == messages.adminNumber || sender == messages.adminNumber2){
+
+                // twilio.sendMessage(messages.adminNumber2, "RESET SUCCESSFUL: all records have been wiped");
+                study.resetTodayRecords();
                 console.log("all profiles have been reset");
                 twilio.sendMessage(messages.adminNumber, "RESET SUCCESSFUL: all records have been wiped");
-                twilio.sendMessage(messages.adminNumber2, "RESET SUCCESSFUL: all records have been wiped");
-                sched.resetAll();
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
