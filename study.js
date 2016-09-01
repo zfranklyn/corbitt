@@ -14,9 +14,28 @@ var misc = require('./misc.js').misc;
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 var config = require('config');
+
+
+
+//EMAIL SETTINGS
+
+// var generator = xoauth2.createXOAuth2Generator({
+//     user: config.get('email'),
+//     clientId: config.get('gmailClientID'),
+//     clientSecret: config.get('gmailClientSecret'),
+//     refreshToken: config.get('gmailRefreshToken'),
+//     accessToken: config.get('gmailAccessToken')
+// })
+
+// listen for token updates
+// you probably want to store these to a db
+// generator.on('token', function(token){
+//     console.log('New token for %s: %s', token.user, token.accessToken);
+// });
+
 // create reusable transporter object using the default SMTP transport
 var transporter = nodemailer.createTransport({
-                                            service: 'gmail',
+                                            service: 'Gmail',
                                             auth: {
                                                 xoauth2: xoauth2.createXOAuth2Generator({
                                                     user: config.get('email'),
@@ -24,10 +43,7 @@ var transporter = nodemailer.createTransport({
                                                     clientSecret: config.get('gmailClientSecret'),
                                                     refreshToken: config.get('gmailRefreshToken'),
                                                     accessToken: config.get('gmailAccessToken')
-                                                })
-                                            }
-                                        });
-
+                                                })}});
 
 // TEXT survey link to all users
 // ONLY IF user has not yet received the survey
@@ -124,7 +140,12 @@ study.prototype.emailCustomizedSurveyLinkToAllUsers = function(){
                                 messages.surveyParam +
                                 user.id +
                                 messages.email.SurveyText2,
-                    html: ""
+                    html: "",
+                    headers: {
+                        'userId': "yceilab@gmail.com",
+                        'access_type':"offline"
+
+                    }
                 };
 
                 console.log(mailOptions);
@@ -172,9 +193,7 @@ study.prototype.emailCustomizedSurveyLinkToAllUsers = function(){
     })
 }
 
-
-// TEXT survey link to all users
-// ONLY IF user has not yet received the survey
+// RESET all records for today
 study.prototype.resetTodayRecords = function(){
     User.find().exec().then(function(users){
         users.forEach(function(user){
@@ -203,6 +222,5 @@ study.prototype.resetTodayRecords = function(){
         })
     })
 }
-
 
 module.exports = new study;
