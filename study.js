@@ -233,6 +233,4 @@ study.prototype.resetTodayRecords = function(){
     })
 }
 
-study.prototype.textReminderToAllUsersToCompleteSurvey();
-
 module.exports = new study;
