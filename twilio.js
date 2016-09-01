@@ -28,7 +28,6 @@ twilio.prototype.sendMessage = function(recipient, content){
         } else {
             console.log('FAILED: Message to: ' + recipient);
             console.log("FAILED: Message Content: " + content);
-            console.log("FAILURE TYPE: " + error)
         }
     });
 }

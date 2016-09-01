@@ -82,39 +82,49 @@ study.prototype.textCustomizedSurveyLinkToAllUsers= function(){
 study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
     User.find().exec().then(function(users){
         users.forEach(function(user, index, array){
-            // if user has received email but not yet completed
-            if (user.sent == true && user.completed == false){
 
-                // remind user, wording varies depending on reminder number
-                if (user.numberOfRemindersToday < 5) {
-                    // send corresponding reminder text
-                    twilio.sendMessage(user.number, messages["reminder" + user.numberOfRemindersToday+1])
-                    console.log("USER "+ user.number + " has been sent reminder no. " + user.numberOfRemindersToday);
-                    user.numberOfRemindersToday++;
+            if (user.sent){
+                // if user has received email but not yet completed
+                if (user.completed == false){
+
+                    console.log("reminder" + user.numberOfRemindersToday)
+
+                    // remind user, wording varies depending on reminder number
+                    if (user.numberOfRemindersToday < 4) {
+                        // send corresponding reminder text
+                        twilio.sendMessage(user.number, messages["reminder" + user.numberOfRemindersToday])
+                        console.log("USER "+ user.number + " has been sent reminder no. " + user.numberOfRemindersToday);
+                        user.numberOfRemindersToday++;
+                    } else {
+                        var delinquentMessage = "WARNING (" + misc.date() + ")" + ": Incomplete after 4 reminders: " +
+                            user.number + "ID: " + user.id;
+                        // even after 4 reminders, this person has not completed; his/her number is sent to the admin number
+                        twilio.sendMessage(messages.adminNumber,
+                            delinquentMessage);
+
+                        twilio.sendMessage(messages.adminNumber2,
+                            delinquentMessage);
+
+                        console.log(delinquentMessage);
+                    }
+
+                    // save reminder status
+                    user.save(function(err){
+                        if (err) {
+                            console.log("failed to update")
+                        } else {
+                            console.log("updated");
+                        }})
+
                 } else {
-                    var delinquentMessage = "WARNING (" + misc.date() + ")" + ": Incomplete after 4 reminders: " +
-                        user.number + "ID: " + user.id;
-                    // even after 4 reminders, this person has not completed; his/her number is sent to the admin number
-                    twilio.sendMessage(messages.adminNumber,
-                        delinquentMessage);
-
-                    twilio.sendMessage(messages.adminNumber2,
-                        delinquentMessage);
-
-                    console.log(delinquentMessage);
+                    console.log("USER " + user.id + " has already completed the survey today");
                 }
 
-                // save reminder status
-                user.save(function(err){
-                    if (err) {
-                        console.log("failed to update")
-                    } else {
-                        console.log("updated");
-                    }})
 
-            } else {
-                console.log("USER " + user.id + " has already completed the survey today");
+            } else { //user has not yet been sent survey
+                console.log("USER " + user.id + " not yet sent survey");
             }
+
 
         })
 
@@ -222,5 +232,7 @@ study.prototype.resetTodayRecords = function(){
         })
     })
 }
+
+study.prototype.textReminderToAllUsersToCompleteSurvey();
 
 module.exports = new study;
