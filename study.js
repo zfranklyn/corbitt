@@ -12,9 +12,22 @@ var User = require('./schemas/userSchema.js');
 var misc = require('./misc.js').misc;
 
 var nodemailer = require('nodemailer');
+var xoauth2 = require('xoauth2');
 var config = require('config');
 // create reusable transporter object using the default SMTP transport
-var transporter = nodemailer.createTransport(config.get('email'));
+var transporter = nodemailer.createTransport({
+                                            service: 'gmail',
+                                            auth: {
+                                                xoauth2: xoauth2.createXOAuth2Generator({
+                                                    user: config.get('email'),
+                                                    clientId: config.get('gmailClientID'),
+                                                    clientSecret: config.get('gmailClientSecret'),
+                                                    refreshToken: config.get('gmailRefreshToken'),
+                                                    accessToken: config.get('gmailAccessToken')
+                                                })
+                                            }
+                                        });
+
 
 // TEXT survey link to all users
 // ONLY IF user has not yet received the survey
@@ -59,7 +72,7 @@ study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
                 // remind user, wording varies depending on reminder number
                 if (user.numberOfRemindersToday < 5) {
                     // send corresponding reminder text
-                    twilio.sendMessage(user.number, messages["reminder" + user.numberOfRemindersToday])
+                    twilio.sendMessage(user.number, messages["reminder" + user.numberOfRemindersToday+1])
                     console.log("USER "+ user.number + " has been sent reminder no. " + user.numberOfRemindersToday);
                     user.numberOfRemindersToday++;
                 } else {
@@ -115,7 +128,7 @@ study.prototype.emailCustomizedSurveyLinkToAllUsers = function(){
                 };
 
                 console.log(mailOptions);
-                
+
                 transporter.sendMail(mailOptions, function(error, info){
                     
                     if(error){

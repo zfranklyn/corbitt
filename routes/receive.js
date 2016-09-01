@@ -156,8 +156,30 @@ router.post('/', function(req, res, next) {
         case "admininstructions":
             twilio.sendMessage(sender, messages.adminInstructions);
             break;
+        
+        case "adminstartschedule":
+            if (sender == messages.adminNumber || sender == messages.adminNumber2) {
+                if (!SCHEDULE) {
+                    twilio.sendMessage(sender, "Scheduled sending starting now!");
+                    sched.startSurveySchedule();
+                } else {
+                    twilio.sendMessage(sender, "Scheduled sending is already in progress!");
+                    console.log("schedule is already in progress");
+                }
+            }
+
+        case "adminstopschedule":
+            if (sender == messages.adminNumber || sender == messages.adminNumber2) {
+                if (SCHEDULE) {
+                    SCHEDULE = false;
+                    twilio.sendMessage(sender, "Scheduled sending stopped!");
+                } else {
+                    twilio.sendMessage(sender, "Scheduled sending is currently not in progress");
+                }
+            }
 
         default:
+            
             console.log("default");
             //DEBUG
             twilio.sendMessage(sender, messages.instructions);
