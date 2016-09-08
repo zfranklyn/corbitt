@@ -14,7 +14,7 @@ scheduling.prototype.startSurveySchedule = function(){
 
     var surveySchedule = later.parse.text("every 5 seconds");
     var reminderSchedule = later.parse.text("every 10 seconds");
-    var resetSchedule = later.parse.text("every minute");
+    var resetSchedule = later.parse.text("every 1 minute");
 
     later.setInterval(function(){
         if (messages.schedule ) {

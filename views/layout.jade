@@ -4,26 +4,31 @@ html
 		title= title
 		meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0')
 		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/stylesheets/normalize.css')
 		// Compiled and minified CSS
 		link(rel='stylesheet', href='http://yui.yahooapis.com/combo?pure/0.6.0/base-min.css&pure/0.6.0/grids-min.css&pure/0.6.0/grids-responsive-min.css')
-		//- link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css')
 		// Compiled and minified JavaScript
 		script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.slim.min.js')
 		script(src='/javascripts/papaparse.min.js')
+
+		script(src="https://code.jquery.com/jquery-3.1.0.min.js"
+		integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+		crossorigin="anonymous" )
+
 		//- // <link rel="stylesheet" href="/css/style.css">
 		//- //if lte IE 8 link(rel='stylesheet', href='http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css')
 		//- // [if gt IE 8] <!
-		
 		//- link(rel='stylesheet', href='http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css')
 		//- // <![endif]
 
-	header
+	body
+
 		nav
 			div()
 				a(href='#' class='logo')
 					div()
 						img(src="/images/ycei-logo.png")
 
-	body
+
 
 	block content

@@ -8,6 +8,8 @@ var express = require('express'),
     twilio = require('../twilio.js'),
     sched = require("../scheduling.js");
 
+var User = require('../schemas/userSchema.js');
+
 
 // When the server receives a text message to ./receive,
 // this is the logic that parses it
@@ -182,9 +184,9 @@ router.post('/', function(req, res, next) {
             }
             break;
 
-        case "customsend:":
+        case "adminmessage":
             if (sender == messages.adminNumber || sender == messages.adminNumber2) {
-                var customMessage = text.substring(text.indexOf(":") + 2, text.length);
+                var customMessage = text.substring(text.indexOf(" ") + 1, text.length);
                 if (customMessage.length < 160) {
                     console.log("Sending message to everyone!");
                     study.sendMessageToEveryone(customMessage);
@@ -197,6 +199,37 @@ router.post('/', function(req, res, next) {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
             break;
+        
+        case "help":
+            var customMessage = text.substring(text.indexOf(" ") + 1, text.length);
+                // find user ID
+                User.findOne({'number': sender}).then(function(userInfo){
+                    var userID = userInfo.id;
+                    // send help message to admins based on user ID
+                    twilio.sendMessage(messages.adminNumber, userID + ": " + customMessage);
+                    twilio.sendMessage(messages.adminNumber2, userID + ": " + customMessage);
+                    twilio.sendMessage(sender, "Thank you, your message has been received. We will get back to you ASAP!");
+                });
+            break;
+
+        // admindirect <userID> <message>
+        case "admindirect":
+            if (sender == messages.adminNumber || sender == messages.adminNumber2) {
+                var userID = misc.getWord(text, 1);
+                // did the admin specify a userID?
+                if (!isNaN(userID)){
+                    User.findOne({'id': userID}).then(function(userInfo){
+                        var userTel = userInfo.number;
+                        var customMessage = text.substring(text.indexOf(" ") + 1, text.length);
+                        twilio.sendMessage(userTel, customMessage);
+                    })
+                }
+
+            } else {
+                twilio.sendMessage(sender, "ACCESS DENIED");
+            }
+            break;
+
 
         default:
             
