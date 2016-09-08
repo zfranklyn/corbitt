@@ -182,6 +182,22 @@ router.post('/', function(req, res, next) {
             }
             break;
 
+        case "customsend:":
+            if (sender == messages.adminNumber || sender == messages.adminNumber2) {
+                var customMessage = text.substring(text.indexOf(":") + 2, text.length);
+                if (customMessage.length < 160) {
+                    console.log("Sending message to everyone!");
+                    study.sendMessageToEveryone(customMessage);
+                    twilio.sendMessage(sender, "Message sent: " + customMessage);
+                } else {
+                    console.log("Message too long!");
+                    twilio.sendMessage(sender, "Message too long!");
+                }
+            } else {
+                twilio.sendMessage(sender, "ACCESS DENIED");
+            }
+            break;
+
         default:
             
             console.log("default");

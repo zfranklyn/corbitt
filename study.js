@@ -105,6 +105,8 @@ study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
                         twilio.sendMessage(messages.adminNumber2,
                             delinquentMessage);
 
+                        user.numberOfRemindersToday++;
+
                         console.log(delinquentMessage);
                     }
 
@@ -170,7 +172,6 @@ study.prototype.emailCustomizedSurveyLinkToAllUsers = function(){
                         }
                     } else {
                         console.log('EMAIL SUCCESS: ' + user.id + info.response);
-                        console.log('EMAIL SUCCESS: ' + user.id + info.response);
 
                         if (config.get('dev')) {
                             twilio.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + user.id);
@@ -228,6 +229,17 @@ study.prototype.resetTodayRecords = function(){
 
             console.log("RESET SUCCESSFUL: USER " + user.id);
 
+
+        })
+    })
+}
+
+study.prototype.sendMessageToEveryone = function(message){
+    User.find().exec().then(function(users){
+        users.forEach(function(user){
+            var userTel = user.number;
+
+            twilio.sendMessage(userTel, message);
 
         })
     })

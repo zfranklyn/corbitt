@@ -12,8 +12,8 @@ var study = require('./study.js');
 
 scheduling.prototype.startSurveySchedule = function(){
 
-    var surveySchedule = later.parse.text("every 10 seconds");
-    var reminderSchedule = later.parse.text("every 15 seconds");
+    var surveySchedule = later.parse.text("every 5 seconds");
+    var reminderSchedule = later.parse.text("every 10 seconds");
     var resetSchedule = later.parse.text("every minute");
 
     later.setInterval(function(){
