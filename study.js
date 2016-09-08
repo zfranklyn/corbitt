@@ -95,7 +95,7 @@ study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
                         twilio.sendMessage(user.number, messages["reminder" + user.numberOfRemindersToday])
                         console.log("USER "+ user.number + " has been sent reminder no. " + user.numberOfRemindersToday);
                         user.numberOfRemindersToday++;
-                    } else {
+                    } else if (user.numberOfRemindersToday < 5) { // don't do anything after 5
                         var delinquentMessage = "WARNING (" + misc.date() + ")" + ": Incomplete after 4 reminders: " +
                             user.number + "ID: " + user.id;
                         // even after 4 reminders, this person has not completed; his/her number is sent to the admin number

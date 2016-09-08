@@ -7,7 +7,7 @@ var express = require('express'),
     timer = require('node-schedule'),
     twilio = require('../twilio.js'),
     sched = require("../scheduling.js");
-var SCHEDULE = false;
+
 
 // When the server receives a text message to ./receive,
 // this is the logic that parses it
@@ -159,24 +159,28 @@ router.post('/', function(req, res, next) {
         
         case "adminstartschedule":
             if (sender == messages.adminNumber || sender == messages.adminNumber2) {
-                if (!SCHEDULE) {
-                    twilio.sendMessage(sender, "Scheduled sending starting now!");
+                if (!messages.schedule) { // if schedule is off
+                    messages.schedule = true;
                     sched.startSurveySchedule();
-                } else {
+                    twilio.sendMessage(sender, "Scheduled sending starting now!");
+
+                } else { // schedule is already on
                     twilio.sendMessage(sender, "Scheduled sending is already in progress!");
                     console.log("schedule is already in progress");
                 }
             }
+            break;
 
         case "adminstopschedule":
             if (sender == messages.adminNumber || sender == messages.adminNumber2) {
-                if (SCHEDULE) {
-                    SCHEDULE = false;
+                if (messages.schedule) {
+                    messages.schedule = false;
                     twilio.sendMessage(sender, "Scheduled sending stopped!");
                 } else {
                     twilio.sendMessage(sender, "Scheduled sending is currently not in progress");
                 }
             }
+            break;
 
         default:
             

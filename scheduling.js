@@ -14,9 +14,29 @@ scheduling.prototype.startSurveySchedule = function(){
 
     var surveySchedule = later.parse.text("every 10 seconds");
     var reminderSchedule = later.parse.text("every 15 seconds");
+    var resetSchedule = later.parse.text("every minute");
 
-    later.setInterval(study.textCustomizedSurveyLinkToAllUsers, surveySchedule);
-    later.setInterval(study.textReminderToAllUsersToCompleteSurvey, reminderSchedule);
+    later.setInterval(function(){
+        if (messages.schedule ) {
+            console.log("messages.schedule: ", messages.schedule );
+            console.log("SCHEDULE: Texting survey");
+            study.textCustomizedSurveyLinkToAllUsers();
+        }
+    }, surveySchedule);
+
+    later.setInterval(function(){
+        if (messages.schedule ){
+            console.log("SCHEDULE: texting reminders");
+            study.textReminderToAllUsersToCompleteSurvey();
+        }
+    }, reminderSchedule);
+
+    later.setInterval(function(){
+        if (messages.schedule ){
+            console.log("SCHEDULE: resetting");
+            study.resetTodayRecords();
+        }
+    }, resetSchedule);
 }
 
 

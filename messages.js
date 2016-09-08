@@ -22,5 +22,6 @@ module.exports = {
                 emailSubject: 'YCEI: Corbett Prep Baseline Survey',
                 SurveyText1: "Dear Educator, thank you for your participation; your input in the first survey has been invaluable! In this second (shorter) survey, we hope to find out a bit more about what you think about the RULER program. Please take the following survey at your earliest convenience: ",
                 SurveyText2: "\n\n The YCEI Contentment Team"
-    }
+    },
+    schedule: false
 }
