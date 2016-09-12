@@ -1,6 +1,6 @@
 // List of Messages
 module.exports = {
-    send: "Dear Corbett Prep Educator, today's survey is avilable at: ",
+    send: "Dear Corbett Prep Educator, today's survey is available at: ",
     textMessage_SurveySentToEmail: "Dear Educator, we have sent a survey to your email inbox. Thanks for your participation!",
     reminder0: "Hi there! This is just a gentle reminder that the survey for today is available.",
     reminder1: "Hi there! This is the second gentle reminder to complete the survey.",

@@ -211,7 +211,6 @@ router.post('/', function(req, res, next) {
                     twilio.sendMessage(sender, "Thank you, your message has been received. We will get back to you ASAP!");
                 });
             break;
-
         // admindirect <userID> <message>
         case "admindirect":
             if (sender == messages.adminNumber || sender == messages.adminNumber2) {
@@ -229,8 +228,6 @@ router.post('/', function(req, res, next) {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
             break;
-
-
         default:
             
             console.log("default");
