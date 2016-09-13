@@ -319,7 +319,7 @@
       <workItem from="1470528640446" duration="2756000" />
       <workItem from="1472585137825" duration="20418000" />
       <workItem from="1473344205235" duration="8345000" />
-      <workItem from="1473793262847" duration="1855000" />
+      <workItem from="1473793262847" duration="1890000" />
     </task>
     <task id="LOCAL-00001" summary="webstorm &#10;">
       <created>1469874978629</created>
@@ -332,7 +332,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48592000" />
+    <option name="totallyTimeSpent" value="48627000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1919" height="1053" extended-state="6" />
@@ -677,22 +677,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/default.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/config/production.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/email.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -708,6 +692,22 @@
           <folding>
             <element signature="e#2176#2987#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/production.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/default.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
