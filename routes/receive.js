@@ -243,7 +243,7 @@ router.post('/', function(req, res, next) {
             }
             break;
 
-        case "admindelete":
+        case "removeuser":
             if (sender == messages.adminNumber || sender == messages.adminNumber2) {
                 var userPhone = misc.getWord(text, 1);
                 db.removeUserBasedOnTel(userPhone);
