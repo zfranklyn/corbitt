@@ -242,6 +242,17 @@ router.post('/', function(req, res, next) {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
             break;
+
+        case "admindelete":
+            if (sender == messages.adminNumber || sender == messages.adminNumber2) {
+                var userPhone = misc.getWord(text, 1);
+                db.removeUserBasedOnTel(userPhone);
+                twilio.sendMessage(sender, "records removed for: " + userPhone);
+            } else {
+                twilio.sendMessage(sender, "ACCESS DENIED");
+            }
+            break;
+
         default:
             
             console.log("default");
