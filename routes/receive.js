@@ -235,10 +235,8 @@ router.post('/', function(req, res, next) {
                 var userEmail = misc.getWord(text, 2);
                 var randomID = Math.floor(Math.random()*10000000);
 
-                if (!isNaN(userPhone) && misc.validateEmail(usreEmail)){
-                    db.addNewUser(userPhone, userEmail, randomID, false);
-                    twilio.sendMessage(messages.adminNumber, userPhone + " registered with ID" + randomID);
-                }
+                db.addNewUser(userPhone, userEmail, randomID, false);
+                twilio.sendMessage(messages.adminNumber, userPhone + " registered with ID" + randomID);
 
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
