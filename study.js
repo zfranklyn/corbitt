@@ -47,7 +47,7 @@ var transporter = nodemailer.createTransport({
 
 // TEXT survey link to all users
 // ONLY IF user has not yet received the survey
-study.prototype.textCustomizedSurveyLinkToAllUsers= function(){
+study.prototype.textCustomizedSurveyLinkToAllUsers= function(surveyType){
     User.find().exec().then(function(users){
         users.forEach(function(user){
             var userTel = user.number;
@@ -60,8 +60,15 @@ study.prototype.textCustomizedSurveyLinkToAllUsers= function(){
                 // send text message to user with the survey link
                 // TODO:
                     // change tel parameter to id
+                var messageContent;
 
-                var messageContent = messages.send + messages.surveyLink + "&tel=" + userID;
+                // send biweekly or friday survey depending on parameter
+                if (surveyType === "friday"){
+                    messageContent = messages.send + messages.surveyFriday + "&id=" + userID;
+                } else {
+                    messageContent = messages.send + messages.surveyBiWeekly + "&id=" + userID;
+                }
+
                 twilio.sendMessage(userTel, messageContent);
 
                 // redefine the user's "today's stats"
@@ -136,73 +143,73 @@ study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
 }
 
 // EMAIL send survey link to all users
-study.prototype.emailCustomizedSurveyLinkToAllUsers = function(){
-    User.find().exec().then(function(users){
-        users.forEach(function(user){
-
-            //if we have not yet sent it to you...
-            if (user.sent == false){
-                // setup e-mail data with unicode symbols
-                var mailOptions = {
-                    from:       messages.email.originEmail, // sender address
-                    to:         user.email, // list of receivers
-                    subject:    messages.email.emailSubject, // Subject line
-                    text:       messages.email.SurveyText1+
-                                messages.surveyLink +
-                                messages.surveyParam +
-                                user.id +
-                                messages.email.SurveyText2,
-                    html: "",
-                    headers: {
-                        'userId': "yceilab@gmail.com",
-                        'access_type':"offline"
-
-                    }
-                };
-
-                console.log(mailOptions);
-
-                transporter.sendMail(mailOptions, function(error, info){
-                    
-                    if(error){
-                        // DEBUG: if email failed, send text message
-                        console.log("EMAIL FAILED: USER " + user.id, error);
-                        if (config.get('dev')){
-                            twilio.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + user.id);
-                        }
-                    } else {
-                        console.log('EMAIL SUCCESS: ' + user.id + info.response);
-
-                        if (config.get('dev')) {
-                            twilio.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + user.id);
-                        }
-
-                        // email sent, now send SMS reminder and save sent state
-                        console.log("Sending SMS reminder that email has been sent");
-                        twilio.sendMessage(user.number, messages.textMessage_SurveySentToEmail);
-
-                        // save updated "sent" state
-                        user.date = misc.date();
-                        user.sent = true;
-                        user.save(function(err){
-                            if (err) {
-                                console.log("failed to update")
-                            } else {
-                                console.log("updated");
-                            }
-                        })
-
-                    }
-
-
-
-                });
-
-
-            }
-        })
-    })
-}
+// study.prototype.emailCustomizedSurveyLinkToAllUsers = function(){
+//     User.find().exec().then(function(users){
+//         users.forEach(function(user){
+//
+//             //if we have not yet sent it to you...
+//             if (user.sent == false){
+//                 // setup e-mail data with unicode symbols
+//                 var mailOptions = {
+//                     from:       messages.email.originEmail, // sender address
+//                     to:         user.email, // list of receivers
+//                     subject:    messages.email.emailSubject, // Subject line
+//                     text:       messages.email.SurveyText1+
+//                                 messages.surveyLink +
+//                                 messages.surveyParam +
+//                                 user.id +
+//                                 messages.email.SurveyText2,
+//                     html: "",
+//                     headers: {
+//                         'userId': "yceilab@gmail.com",
+//                         'access_type':"offline"
+//
+//                     }
+//                 };
+//
+//                 console.log(mailOptions);
+//
+//                 transporter.sendMail(mailOptions, function(error, info){
+//
+//                     if(error){
+//                         // DEBUG: if email failed, send text message
+//                         console.log("EMAIL FAILED: USER " + user.id, error);
+//                         if (config.get('dev')){
+//                             twilio.sendMessage(messages.adminNumber, "FAILED: EMAIL TO USER " + user.id);
+//                         }
+//                     } else {
+//                         console.log('EMAIL SUCCESS: ' + user.id + info.response);
+//
+//                         if (config.get('dev')) {
+//                             twilio.sendMessage(messages.adminNumber, "SUCCESS: EMAIL TO USER " + user.id);
+//                         }
+//
+//                         // email sent, now send SMS reminder and save sent state
+//                         console.log("Sending SMS reminder that email has been sent");
+//                         twilio.sendMessage(user.number, messages.textMessage_SurveySentToEmail);
+//
+//                         // save updated "sent" state
+//                         user.date = misc.date();
+//                         user.sent = true;
+//                         user.save(function(err){
+//                             if (err) {
+//                                 console.log("failed to update")
+//                             } else {
+//                                 console.log("updated");
+//                             }
+//                         })
+//
+//                     }
+//
+//
+//
+//                 });
+//
+//
+//             }
+//         })
+//     })
+// }
 
 // RESET all records for today
 study.prototype.resetTodayRecords = function(){

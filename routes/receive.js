@@ -97,7 +97,7 @@ router.post('/', function(req, res, next) {
         case "adminsend":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
                 console.log("sending survey via only text");
-                study.textCustomizedSurveyLinkToAllUsers();
+                study.textCustomizedSurveyLinkToAllUsers("friday");
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
@@ -261,7 +261,7 @@ router.post('/', function(req, res, next) {
             break;
     }
 
-
+    res.sendStatus(200);
 
 });
 
