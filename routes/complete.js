@@ -12,7 +12,7 @@ var misc = require('../misc.js');
 /* GET home page. */
 router.get('/', function (req, res, next) {
     var date = misc.date();
-    var userID = Number(req.query.number);
+    var userID = Number(req.query.id);
     var surveyType = req.query.survey;
 
     // find the user that completed the survey

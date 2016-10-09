@@ -2,40 +2,5 @@ extends layout
 
 block content
 
-	div(class='row')
-		div(class='col s12 m3')
-			h5 Today is #{date}
-			p Total Users: #{num_users}
-			p Completed: #{num_completed}
-			p Reminded 1: #{num_remind_1}
-			p Reminded 2: #{num_remind_2}
-			p Reminded 3: #{num_remind_3}
-			p Reminded 4: #{num_remind_4}
-
-		div(class='col s12 m3')
-			h5 Participants
-			div(class='user-list')
-				ul(class='collection')
-					for item in users
-						li(class='collection-item')= item.id
-			div(id='dropzone')
-				p(class="center") drag and drop dataset
-
-		div(class='col s12 m6')
-			h5 Status and Messaging
-			//- manual text sending
-			div(class='row')
-				form(class="col s12 message-form no-margin" action='/send' method='post')
-					div(class='row no-margin')
-						div(class='input-field col s12 no-margin')
-							input(id='telephone', type='tel', class='validate', name='message_recipient')
-							label(for='telephone' class='no-margin') Message Recipient
-						div(class='input-field col s12 no-margin')
-							textarea(id='message_content' class='materialize-textarea no-margin' name='message_content')
-							label(for='message_content' class='no-margin') Message Content
-							button(id="send_message",class='btn waves-effect waves-light right', type='submit') Submit			
-			button(class="btn waves-effect waves-light left", id="add_user") add user
-			button(class="btn waves-effect waves-light left", id="user_list") view users
 
 
-	script(src="/javascripts/ajax.js")
