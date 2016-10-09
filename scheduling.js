@@ -21,7 +21,7 @@ scheduling.prototype.startSurveySchedule = function(){
     later.setInterval(function(){
         console.log("sending test schedule")
         twilio.sendMessage(messages.adminNumber, "test schedule");
-    })
+    }, testSchedule);
 
     later.setInterval(function(){
         if (messages.schedule ) {
