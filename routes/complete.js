@@ -27,6 +27,7 @@ router.get('/', function (req, res, next) {
 
             // redefine current user object:
             user.completed = true;
+            user.completionTime = misc.timeRightNow();
             user.save(function (error) {
 
                 if (!error) {
@@ -43,6 +44,8 @@ router.get('/', function (req, res, next) {
     }).catch(function(err){
         console.log(err);
     });
+
+    res.sendStatus(200);
 
 })
 
