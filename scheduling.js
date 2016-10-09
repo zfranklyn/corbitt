@@ -14,14 +14,14 @@ scheduling.prototype.startSurveySchedule = function(){
 
     var biweeklySurveySchedule = later.parse.text('at 8:00 pm on Monday,Wednesday');
     var fridaySurveySchedule = later.parse.text('at 8:00 pm on Friday');
-    var reminderSchedule = later.parse.text('at 9:00 pm,10:00 pm,11:00 pm,and 11:59pm on Monday,Tuesday,Wednesday,Thursday');
+    var reminderSchedule = later.parse.text('at 9:30 pm,11:00 pm,12:30 am on Monday,Tuesday,Wednesday,Thursday,Friday,Saturday');
     var resetSchedule = later.parse.text('at 7:00 pm on Monday,Wednesday,Friday'); // reset an hour before next one sends out
-    var testSchedule = later.parse.text('at 11:00 am,12:00 pm,1:00pm,2:00pm,3:00pm,4:00pm on Sunday');
+    // var testSchedule = later.parse.text('at 11:00 am,12:00 pm,1:00pm,2:00pm,3:00pm,4:00pm on Sunday');
 
-    later.setInterval(function(){
-        console.log("sending test schedule")
-        twilio.sendMessage(messages.adminNumber, "test schedule");
-    }, testSchedule);
+    // later.setInterval(function(){
+    //     console.log("sending test schedule")
+    //     twilio.sendMessage(messages.adminNumber, "test schedule");
+    // }, testSchedule);
 
     later.setInterval(function(){
         if (messages.schedule ) {
