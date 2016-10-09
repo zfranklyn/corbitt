@@ -1,12 +1,12 @@
 var express = require('express'),
     router = express.Router(),
-    misc = require('../misc.js').misc,
+    misc = require('../misc.js'),
     db = require('../db.js'),
     messages = require('../messages.js'),
     study = require('../study.js'),
-    timer = require('node-schedule'),
     twilio = require('../twilio.js'),
-    sched = require("../scheduling.js");
+    sched = require("../scheduling.js"),
+    chalk = require('chalk');
 
 var User = require('../schemas/userSchema.js');
 
@@ -38,7 +38,7 @@ router.post('/', function(req, res, next) {
             if (email){
                 db.returnUserBasedOnTel(sender).then(function(doc){
                     if (doc != null){ //user already exists
-                        console.log("\nFAILED: user already registered\n\n")
+                        chalk.red("\nFAILED: user already registered\n\n")
                         twilio.sendMessage(sender, "You have already registered! To delete your existing records, reply with 'admindelete'");
                     } else {
                         console.log("USER DOES NOT YET EXIST");
@@ -48,7 +48,7 @@ router.post('/', function(req, res, next) {
                             console.log("VALIDATION SUCCESS\n\n")
                             console.log("USER CREATED: " + email + ", ID: " + randomID);
 
-
+                            // add new user into database
                             db.addNewUser(sender, email, randomID, false);
 
                             twilio.sendMessage(sender, messages.welcome1);
@@ -91,22 +91,23 @@ router.post('/', function(req, res, next) {
 
             break;
 
-        // ADMIN-ONLY
-        // TODO
-        // sends survey to everyone
         case "adminsend":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
-                console.log("sending survey via only text");
-                study.textCustomizedSurveyLinkToAllUsers("friday");
+                var typeOfSurvey = misc.getWord(text, 1);
+                if (typeOfSurvey === "friday"){
+                    study.textCustomizedSurveyLinkToAllUsers("friday");
+                } else if (typeOfSurvey === "biweekly"){
+                    study.textCustomizedSurveyLinkToAllUsers("biweekly");
+                } else {
+                    twilio.sendMessage(sender, "Please specify a valid type of survey: 'biweekly' or 'friday'");
+                }
+
             } else {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
 
             break;
 
-        // ADMIN-ONLY
-            // TODO
-            // sends reminder to everyone
         case "adminremind":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
                 console.log("reminding everyone");
@@ -117,8 +118,6 @@ router.post('/', function(req, res, next) {
             }
             break;
 
-        // ADMIN-ONLY
-            // resets the records for today
         case "adminreset":
             if (sender == messages.adminNumber || sender == messages.adminNumber2){
 
@@ -254,14 +253,11 @@ router.post('/', function(req, res, next) {
             break;
 
         default:
-            
             console.log("default");
             //DEBUG
             twilio.sendMessage(sender, messages.instructions);
             break;
     }
-
-    res.sendStatus(200);
 
 });
 

@@ -47,4 +47,4 @@ misc.prototype.validateEmail = function validateEmail(email){
     return re.test(email);  
 }
 
-exports.misc = new misc;
+module.exports = new misc;

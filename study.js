@@ -9,41 +9,13 @@ var twilio = require('./twilio.js');
 var db = require('./db.js');
 var messages = require('./messages.js');
 var User = require('./schemas/userSchema.js');
-var misc = require('./misc.js').misc;
+var misc = require('./misc.js');
 
 var nodemailer = require('nodemailer');
 var xoauth2 = require('xoauth2');
 var config = require('config');
 
 
-
-//EMAIL SETTINGS
-
-// var generator = xoauth2.createXOAuth2Generator({
-//     user: config.get('email'),
-//     clientId: config.get('gmailClientID'),
-//     clientSecret: config.get('gmailClientSecret'),
-//     refreshToken: config.get('gmailRefreshToken'),
-//     accessToken: config.get('gmailAccessToken')
-// })
-
-// listen for token updates
-// you probably want to store these to a db
-// generator.on('token', function(token){
-//     console.log('New token for %s: %s', token.user, token.accessToken);
-// });
-
-// create reusable transporter object using the default SMTP transport
-var transporter = nodemailer.createTransport({
-                                            service: 'Gmail',
-                                            auth: {
-                                                xoauth2: xoauth2.createXOAuth2Generator({
-                                                    user: config.get('email'),
-                                                    clientId: config.get('gmailClientID'),
-                                                    clientSecret: config.get('gmailClientSecret'),
-                                                    refreshToken: config.get('gmailRefreshToken'),
-                                                    accessToken: config.get('gmailAccessToken')
-                                                })}});
 
 // TEXT survey link to all users
 // ONLY IF user has not yet received the survey
@@ -97,12 +69,12 @@ study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
                     console.log("reminder" + user.numberOfRemindersToday)
 
                     // remind user, wording varies depending on reminder number
-                    if (user.numberOfRemindersToday < 4) {
+                    if (user.numberOfRemindersToday < 3) {
                         // send corresponding reminder text
                         twilio.sendMessage(user.number, messages["reminder" + user.numberOfRemindersToday])
                         console.log("USER "+ user.number + " has been sent reminder no. " + user.numberOfRemindersToday);
                         user.numberOfRemindersToday++;
-                    } else if (user.numberOfRemindersToday < 5) { // don't do anything after 5
+                    } else if (user.numberOfRemindersToday < 4) { // don't do anything after 5
                         var delinquentMessage = "WARNING (" + misc.date() + ")" + ": Incomplete after 4 reminders: " +
                             user.number + "ID: " + user.id;
                         // even after 4 reminders, this person has not completed; his/her number is sent to the admin number

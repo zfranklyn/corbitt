@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db.js');
-var misc = require('../misc.js').misc;
+var misc = require('../misc.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

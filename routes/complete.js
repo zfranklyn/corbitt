@@ -7,7 +7,7 @@ var router = express.Router();
 var db = require('../db.js');
 var twilio = require('../twilio.js').twilio;
 var messages = require('../messages');
-var misc = require('../misc.js').misc;
+var misc = require('../misc.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {

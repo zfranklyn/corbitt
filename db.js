@@ -3,7 +3,7 @@ var db = function (){};
 
 // Users Module
 var User = require('./schemas/userSchema.js');
-var misc = require('./misc.js').misc;
+var misc = require('./misc.js');
 
 // ADD USER
 // This interacts with MongoDB to add a new user
