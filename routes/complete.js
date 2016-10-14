@@ -5,25 +5,27 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db.js');
-var twilio = require('../twilio.js').twilio;
+var twilio = require('../twilio.js');
 var messages = require('../messages');
 var misc = require('../misc.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
     var date = misc.date();
-    var userID = Number(req.query.number);
+    var userID = Number(req.query.id);
     var surveyType = req.query.survey;
 
     // find the user that completed the survey
-    db.findUser(userID).then(function (user) {
-        var userTel = user.number;
-        db.returnUserBasedOnID(userID).then(function (user) {
+    db.returnUserBasedOnID(userID).then(function (user) {
+            var userTel = user.number;
+
             // sanity check: user should not have completed this survey twice today
             // sometimes Qualtrics sends multiple GET requests; this is to ensure
             // the user doesn't get spam SMS
-            if (user.completed == false) {
+            if (!user.completed) {
                 console.log(date + ": USER " + userID + " completed today's survey");
+                console.log("user number:");
+                console.log(userTel);
                 twilio.sendMessage(userTel, messages.completedSurveyReply);
 
                 // redefine current user object:
@@ -41,9 +43,16 @@ router.get('/', function (req, res, next) {
             } else {
                 console.log("USER " + userTel + " has already completed this survey.")
             }
-        });
+
     });
+
+    res.sendStatus(200);
+
+
 });
+
+
+
 
 
 module.exports = router;

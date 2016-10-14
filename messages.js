@@ -17,7 +17,7 @@ module.exports = {
     adminInstructions: "'adminsend': send trimester survey. 'adminreset': reset all records (send & remind status). 'adminremind', 'adminstatus'",
     adminNumber: 16509467649,
     adminNumber2: 15708155914,
-    completedSurveyReply: "Thanks for completing today's survey. You can reach us by texting 'HELP' followed by your message!",
+    completedSurveyReply: "Thanks for completing today's survey! You can reply here with any questions, comments, or suggestions.",
     email: {    originEmail: '"Yale Center for Emotional Intelligence" <yceilab@gmail.com>',
                 emailSubject: 'YCEI: Corbett Prep Baseline Survey',
                 SurveyText1: "Dear Educator, thank you for your participation; your input in the first survey has been invaluable! In this second (shorter) survey, we hope to find out a bit more about what you think about the RULER program. Please take the following survey at your earliest convenience: ",

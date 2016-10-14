@@ -253,9 +253,12 @@ router.post('/', function(req, res, next) {
             break;
 
         default:
-            console.log("default");
-            //DEBUG
-            twilio.sendMessage(sender, messages.instructions);
+            User.findOne({'number': sender}).then(function(userInfo){
+                var userID = userInfo.id;
+                // send help message to admins based on user ID
+                twilio.sendMessage(messages.adminNumber, userID + ": " + text);
+                twilio.sendMessage(sender, "Thank you, your message has been received. If you need immediate assistance, call Franklyn @ 6509467649");
+            });
             break;
     }
 

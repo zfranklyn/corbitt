@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var config = require('config');
 
 // connects to MLab database
-mongoose.connect(config.get("productionDB"));
+mongoose.connect(config.get("testDB"));
 
 var db = mongoose.connection;
 
