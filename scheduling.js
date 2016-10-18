@@ -12,17 +12,14 @@ var study = require('./study.js');
 scheduling.prototype.startSurveySchedule = function(){
     // UTC time 8PM is 4PM EST
 
-    var biweeklySurveySchedule = later.parse.text('at 8:00 pm on Tuesday,Thursday');
+    var biweeklySurveyScheduleEven = later.parse.text('at 8:00 pm on Tuesday,Thursday');
+    var biweeklySurveyScheduleOdd = later.parse.text('at 8:00 pm on Monday,Wednesday');
     var fridaySurveySchedule = later.parse.text('at 8:00 pm on Friday');
-    var reminderSchedule = later.parse.text('at 9:00 pm,10:30 pm,12:00 am,and 1:30am on Monday,Tuesday,Wednesday,Thursday,Friday,Saturday');
-    var resetSchedule = later.parse.text('at 7:00 pm on Monday,Wednesday,Friday'); // reset an hour before next one sends out
-    var testSchedule = later.parse.text('at 11:00 am,12:00 pm,1:00pm,2:00pm,3:00pm,4:00pm on Sunday');
+    var reminderSchedule = later.parse.text('at 9:30 pm,11:00 pm,12:30 am,and 2:00am');
+    var resetScheduleEven= later.parse.text('at 7:00 pm on Tuesday,Thursday,Friday'); // reset an hour before next one sends out
+    var resetScheduleOdd = later.parse.text('at 7:00 pm on Monday,Wednesday,Friday');
 
-    later.setInterval(function(){
-        console.log("sending test schedule")
-        twilio.sendMessage(messages.adminNumber, "test schedule");
-    }, testSchedule);
-
+    // biweekly sending schedule
     later.setInterval(function(){
         if (messages.schedule ) {
             console.log("messages.schedule: ", messages.schedule );
@@ -30,8 +27,9 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Scheduled bi-weekly survey sending");
             study.textCustomizedSurveyLinkToAllUsers("biweekly");
         }
-    }, biweeklySurveySchedule);
+    }, biweeklySurveyScheduleEven);
 
+    // friday sending schedule
     later.setInterval(function(){
         if (messages.schedule ) {
             console.log("messages.schedule: ", messages.schedule );
@@ -41,6 +39,7 @@ scheduling.prototype.startSurveySchedule = function(){
         }
     }, fridaySurveySchedule);
 
+    // reminder sending schedule
     later.setInterval(function(){
         if (messages.schedule ){
             console.log("SCHEDULE: texting reminders");
@@ -49,13 +48,14 @@ scheduling.prototype.startSurveySchedule = function(){
         }
     }, reminderSchedule);
 
+    // reset schedule
     later.setInterval(function(){
         if (messages.schedule ){
             twilio.sendMessage(messages.adminNumber, "Scheduled reset initiated");
             console.log("SCHEDULE: resetting");
             study.resetTodayRecords();
         }
-    }, resetSchedule);
+    }, resetScheduleEven);
 }
 
 module.exports = new scheduling;
