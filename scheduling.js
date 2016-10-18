@@ -12,9 +12,9 @@ var study = require('./study.js');
 scheduling.prototype.startSurveySchedule = function(){
     // UTC time 8PM is 4PM EST
 
-    var biweeklySurveySchedule = later.parse.text('at 8:00 pm on Monday,Wednesday');
+    var biweeklySurveySchedule = later.parse.text('at 8:00 pm on Tuesday,Thursday');
     var fridaySurveySchedule = later.parse.text('at 8:00 pm on Friday');
-    var reminderSchedule = later.parse.text('at 9:00 pm,10:30 pm,12:00 am,and 1:30am on Monday,Tuesday,Wednesday,Thursday');
+    var reminderSchedule = later.parse.text('at 9:00 pm,10:30 pm,12:00 am,and 1:30am on Monday,Tuesday,Wednesday,Thursday,Friday,Saturday');
     var resetSchedule = later.parse.text('at 7:00 pm on Monday,Wednesday,Friday'); // reset an hour before next one sends out
     var testSchedule = later.parse.text('at 11:00 am,12:00 pm,1:00pm,2:00pm,3:00pm,4:00pm on Sunday');
 

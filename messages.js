@@ -2,8 +2,8 @@
 module.exports = {
     send: "Dear Corbett Prep Educator, today's survey is available at: ",
     textMessage_SurveySentToEmail: "Dear Educator, we have sent a survey to your email inbox. Thanks for your participation!",
-    reminder0: "Hi there! This is just a gentle reminder that the survey for today is available.",
-    reminder1: "Hi there! This is the second gentle reminder to complete the survey.",
+    reminder0: "Hi there! This is just a gentle reminder that the survey for today is available. It should take no more than 2 minutes!",
+    reminder1: "Hi there! This is the second gentle reminder to complete the brief survey.",
     reminder2: "Hi there! We really hope to have your voice heard in this collaboration. Let us know if you think there's been an error in our records!",
     welcome1: "Dear Corbett Prep Educator, welcome to the RULER 2.0 Wellbeing Study, a collaboration led by the Yale Center Emotional Intelligence!",
     welcome2: "This message indicates that you're now a part of our survey system. We take your privacy very seriously. Your randomly assigned ID is: ",
