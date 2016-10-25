@@ -29,9 +29,6 @@ study.prototype.textCustomizedSurveyLinkToAllUsers= function(surveyType){
 
                 console.log("SENDING SURVEY TO: "+ user.number);
 
-                // send text message to user with the survey link
-                // TODO:
-                    // change tel parameter to id
                 var messageContent;
 
                 // send biweekly or friday survey depending on parameter
@@ -66,8 +63,6 @@ study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
                 // if user has received email but not yet completed
                 if (user.completed == false){
 
-                    console.log("reminder" + user.numberOfRemindersToday)
-
                     // remind user, wording varies depending on reminder number
                     if (user.numberOfRemindersToday < 3) {
                         // send corresponding reminder text
@@ -79,9 +74,6 @@ study.prototype.textReminderToAllUsersToCompleteSurvey = function(){
                             user.number + "ID: " + user.id;
                         // even after 4 reminders, this person has not completed; his/her number is sent to the admin number
                         twilio.sendMessage(messages.adminNumber,
-                            delinquentMessage);
-
-                        twilio.sendMessage(messages.adminNumber2,
                             delinquentMessage);
 
                         user.numberOfRemindersToday++;

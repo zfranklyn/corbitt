@@ -15,9 +15,10 @@ scheduling.prototype.startSurveySchedule = function(){
     var biweeklySurveyScheduleEven = later.parse.text('at 8:00 pm on Tuesday,Thursday');
     var biweeklySurveyScheduleOdd = later.parse.text('at 8:00 pm on Monday,Wednesday');
     var fridaySurveySchedule = later.parse.text('at 8:00 pm on Friday');
-    var reminderSchedule = later.parse.text('at 9:30 pm and 11:00 pm and 12:30 am and 2:00am');
+    var reminderSchedule = later.parse.text('at 9:30pm, 11:00pm, 12:00am');
     var resetScheduleEven= later.parse.text('at 7:00 pm on Tuesday,Thursday,Friday'); // reset an hour before next one sends out
     var resetScheduleOdd = later.parse.text('at 7:00 pm on Monday,Wednesday,Friday');
+    var testSchedule = later.parse.text('at 2:48am, 2:49am, 2:50am');
 
     // biweekly sending schedule
     later.setInterval(function(){
@@ -57,5 +58,7 @@ scheduling.prototype.startSurveySchedule = function(){
         }
     }, resetScheduleEven);
 }
+
+// scheduling.prototype.startSurveySchedule();
 
 module.exports = new scheduling;

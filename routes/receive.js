@@ -14,6 +14,7 @@ var User = require('../schemas/userSchema.js');
 // When the server receives a text message to ./receive,
 // this is the logic that parses it
 router.post('/', function(req, res, next) {
+    console.log("posted")
     // who is our sender? number
 	var sender = Number(req.body.From);
     // what's the body of the message?
@@ -157,7 +158,7 @@ router.post('/', function(req, res, next) {
         case "admininstructions":
             twilio.sendMessage(sender, messages.adminInstructions);
             break;
-        
+
         case "adminstartschedule":
             if (sender == messages.adminNumber || sender == messages.adminNumber2) {
                 if (!messages.schedule) { // if schedule is off
@@ -198,7 +199,7 @@ router.post('/', function(req, res, next) {
                 twilio.sendMessage(sender, "ACCESS DENIED");
             }
             break;
-        
+
         case "help":
             var customMessage = text.substring(text.indexOf(" ") + 1, text.length);
                 // find user ID
@@ -224,7 +225,7 @@ router.post('/', function(req, res, next) {
                 }
 
             } else {
-                twilio.sendMessage(sender, "ACCESS DENIED");
+                twilio.sendMessage(sender, "`ACCESS DENIED");
             }
             break;
 
