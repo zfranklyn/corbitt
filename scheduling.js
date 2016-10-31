@@ -12,14 +12,14 @@ var study = require('./study.js');
 scheduling.prototype.startSurveySchedule = function(){
     // UTC time 8PM is 4PM EST
 
-    twilio.sendMessage(messages.adminNumber, "Scheduled sending initiated");
+    twilio.sendMessage(messages.adminNumber, "Scheduled sending schedule online!");
 
     var biweeklySurveyScheduleEven = later.parse.text('at 8:00 pm on Tuesday,Thursday');
     var biweeklySurveyScheduleOdd = later.parse.text('at 8:00 pm on Monday,Wednesday');
     var fridaySurveySchedule = later.parse.text('at 8:00 pm on Friday');
     var resetScheduleEven= later.parse.text('at 7:00 pm on Tuesday,Thursday,Friday'); // reset an hour before next one sends out
     var resetScheduleOdd = later.parse.text('at 7:00 pm on Monday,Wednesday,Friday');
-
+    //
     // reminder1
     later.setInterval(function(){
         if (messages.schedule ){
