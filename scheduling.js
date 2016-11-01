@@ -45,7 +45,7 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Reminder 3 sending");
             study.textReminderToAllUsersToCompleteSurvey();
         }
-    }, later.parse.text('at 12:00am'));
+    }, later.parse.text('at 00:00'));
 
 
     // biweekly sending schedule
