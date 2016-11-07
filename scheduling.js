@@ -14,11 +14,11 @@ scheduling.prototype.startSurveySchedule = function(){
 
     twilio.sendMessage(messages.adminNumber, "Scheduled sending schedule online!");
 
-    var biweeklySurveyScheduleEven = later.parse.text('at 8:00 pm on Tuesday,Thursday');
-    var biweeklySurveyScheduleOdd = later.parse.text('at 8:00 pm on Monday,Wednesday');
-    var fridaySurveySchedule = later.parse.text('at 8:00 pm on Friday');
-    var resetScheduleEven= later.parse.text('at 7:00 pm on Tuesday,Thursday,Friday'); // reset an hour before next one sends out
-    var resetScheduleOdd = later.parse.text('at 7:00 pm on Monday,Wednesday,Friday');
+    var biweeklySurveyScheduleEven = later.parse.text('at 9:00 pm on Tuesday,Thursday');
+    var biweeklySurveyScheduleOdd = later.parse.text('at 9:00 pm on Monday,Wednesday');
+    var fridaySurveySchedule = later.parse.text('at 9:00 pm on Friday');
+    var resetScheduleEven= later.parse.text('at 8:00 pm on Tuesday,Thursday,Friday'); // reset an hour before next one sends out
+    var resetScheduleOdd = later.parse.text('at 8:00 pm on Monday,Wednesday,Friday');
     //
     // reminder1
     later.setInterval(function(){
@@ -27,7 +27,7 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Reminder 1 sending");
             study.textReminderToAllUsersToCompleteSurvey();
         }
-    }, later.parse.text('at 9:30pm'));
+    }, later.parse.text('at 10:30pm'));
 
     // reminder2
     later.setInterval(function(){
@@ -36,7 +36,7 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Reminder 2 sending");
             study.textReminderToAllUsersToCompleteSurvey();
         }
-    }, later.parse.text('at 11:00pm'));
+    }, later.parse.text('at 00:00pm'));
 
     // reminder3
     later.setInterval(function(){
@@ -45,7 +45,7 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Reminder 3 sending");
             study.textReminderToAllUsersToCompleteSurvey();
         }
-    }, later.parse.text('at 00:00'));
+    }, later.parse.text('at 01:30'));
 
 
     // biweekly sending schedule
