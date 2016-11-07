@@ -36,7 +36,7 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Reminder 2 sending");
             study.textReminderToAllUsersToCompleteSurvey();
         }
-    }, later.parse.text('at 00:00pm'));
+    }, later.parse.text('at 00:00'));
 
     // reminder3
     later.setInterval(function(){
