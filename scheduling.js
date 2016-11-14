@@ -42,7 +42,7 @@ scheduling.prototype.startSurveySchedule = function(){
     later.setInterval(function(){
         if (messages.schedule ){
             console.log("SCHEDULE: texting reminder 3");
-            
+
             study.textReminderToAllUsersToCompleteSurvey();
         }
     }, later.parse.text('at 01:30'));
@@ -75,7 +75,7 @@ scheduling.prototype.startSurveySchedule = function(){
             console.log("SCHEDULE: resetting");
             study.resetTodayRecords();
         }
-    }, resetScheduleOdd);
+    }, resetScheduleEven);
 }
 
 messages.schedule = true;
