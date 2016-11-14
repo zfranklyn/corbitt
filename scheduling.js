@@ -24,7 +24,7 @@ scheduling.prototype.startSurveySchedule = function(){
     later.setInterval(function(){
         if (messages.schedule ){
             console.log("SCHEDULE: texting reminder 1");
-            twilio.sendMessage(messages.adminNumber, "Reminder 1 sending");
+
             study.textReminderToAllUsersToCompleteSurvey();
         }
     }, later.parse.text('at 10:30pm'));
@@ -33,7 +33,7 @@ scheduling.prototype.startSurveySchedule = function(){
     later.setInterval(function(){
         if (messages.schedule ){
             console.log("SCHEDULE: texting reminder 2");
-            twilio.sendMessage(messages.adminNumber, "Reminder 2 sending");
+
             study.textReminderToAllUsersToCompleteSurvey();
         }
     }, later.parse.text('at 00:00'));
@@ -42,7 +42,7 @@ scheduling.prototype.startSurveySchedule = function(){
     later.setInterval(function(){
         if (messages.schedule ){
             console.log("SCHEDULE: texting reminder 3");
-            twilio.sendMessage(messages.adminNumber, "Reminder 3 sending");
+            
             study.textReminderToAllUsersToCompleteSurvey();
         }
     }, later.parse.text('at 01:30'));
@@ -56,7 +56,7 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Scheduled bi-weekly survey sending");
             study.textCustomizedSurveyLinkToAllUsers("biweekly");
         }
-    }, biweeklySurveyScheduleOdd);
+    }, biweeklySurveyScheduleEven);
 
     // friday sending schedule
     later.setInterval(function(){
