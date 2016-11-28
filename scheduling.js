@@ -56,7 +56,7 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Scheduled bi-weekly survey sending");
             study.textCustomizedSurveyLinkToAllUsers("biweekly");
         }
-    }, biweeklySurveyScheduleEven);
+    }, biweeklySurveyScheduleOdd);
 
     // friday sending schedule
     later.setInterval(function(){
@@ -75,7 +75,7 @@ scheduling.prototype.startSurveySchedule = function(){
             console.log("SCHEDULE: resetting");
             study.resetTodayRecords();
         }
-    }, resetScheduleEven);
+    }, resetScheduleOdd);
 }
 
 messages.schedule = true;
