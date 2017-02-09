@@ -64,7 +64,7 @@ scheduling.prototype.startSurveySchedule = function(){
             console.log("messages.schedule: ", messages.schedule );
             console.log("SCHEDULE: Texting Friday Survey");
             twilio.sendMessage(messages.adminNumber, "Scheduled Friday survey sending");
-            study.textCustomizedSurveyLinkToAllUsers("friday");
+            study.textCustomizedSurveyLinkToAllUsers("peace");
         }
     }, fridaySurveySchedule);
 

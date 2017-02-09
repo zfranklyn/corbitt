@@ -14,6 +14,7 @@ module.exports = {
     textSurveyURLBase: "franklyn.xyz",
     surveyParam: "&id=",
     surveyLinkTrimester: "https://yalesurvey.qualtrics.com/SE/?SID=SV_0VAogcTezW2LL6t",
+    peaceLink: "https://yalesurvey.qualtrics.com/SE/?SID=SV_db7xmVurXVdw91P",
     adminInstructions: "'adminsend': send trimester survey. 'adminreset': reset all records (send & remind status). 'adminremind', 'adminstatus'",
     adminNumber: 16509467649,
     adminNumber2: 15708155914,

@@ -34,6 +34,8 @@ study.prototype.textCustomizedSurveyLinkToAllUsers= function(surveyType){
                 // send biweekly or friday survey depending on parameter
                 if (surveyType === "friday"){
                     messageContent = messages.send + " \n "  + messages.surveyFriday + "&id=" + userID;
+                } else if (surveyType === "peace") {
+                    messageContent = messages.send + " \n "  + messages.peaceLink + "&id=" + userID;
                 } else {
                     messageContent = messages.send + messages.surveyBiWeekly + "&id=" + userID;
                 }
