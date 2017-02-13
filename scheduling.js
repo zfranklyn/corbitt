@@ -56,7 +56,7 @@ scheduling.prototype.startSurveySchedule = function(){
             twilio.sendMessage(messages.adminNumber, "Scheduled bi-weekly survey sending");
             study.textCustomizedSurveyLinkToAllUsers("biweekly");
         }
-    }, biweeklySurveyScheduleOdd);
+    }, biweeklySurveyScheduleEven);
 
     // friday sending schedule
     later.setInterval(function(){
@@ -64,7 +64,7 @@ scheduling.prototype.startSurveySchedule = function(){
             console.log("messages.schedule: ", messages.schedule );
             console.log("SCHEDULE: Texting Friday Survey");
             twilio.sendMessage(messages.adminNumber, "Scheduled Friday survey sending");
-            study.textCustomizedSurveyLinkToAllUsers("peace");
+            study.textCustomizedSurveyLinkToAllUsers("friday");
         }
     }, fridaySurveySchedule);
 
@@ -75,7 +75,7 @@ scheduling.prototype.startSurveySchedule = function(){
             console.log("SCHEDULE: resetting");
             study.resetTodayRecords();
         }
-    }, resetScheduleOdd);
+    }, resetScheduleEven);
 }
 
 messages.schedule = true;
