@@ -10,13 +10,13 @@ var config = require('config');
 // connects to MLab database
 mongoose.connect(config.get("productionDB"));
 
+// productionDB
+
 var connection = mongoose.connection;
 
 connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function(){
     console.log("Connected to database")
-
-
 
     User.find()
     .then((allUsers, err) => {
@@ -31,30 +31,37 @@ connection.once('open', function(){
     		setTimeout(()=>{console.log(`pausing for user ${user.id}`)
 				console.log(`sending to user ${user.id}`)
 
-	    		const message = "Dear Corbett Prep Educators,\n\n" +
-					"The YCEI Team would like to thank you for your participation in this semester's study! " +
-					"We hope that you've found the content to be useful, and that the survey system was not too much of a hassle! As always, " +
-					"feel free to send us any comments or questions at any time! (you can reach Franklyn @ 6509467649) \n\n" +
-					"We'd like to invite you to take one last survey to finish up this semester's study. With your full input "+
-					"we'll be able to better evaluate and improve the RULER 2.0 program. " +
-					"We recommend taking this one on your computer, as it is longer than the check-in survey.\n\n" +
-					"You can find your anonymous, personalized link here: " +
-					`https://yalesurvey.qualtrics.com/SE/?SID=SV_880bsLT0v4LUmfr&tel=${user.id} \n\n` +
+	    		const message = "Dear Corbett Prep Team,\n\n" +
+					"We hope that the semester is going well! Last semester we sent everyone a comprehensive survey — " +
+					"we'd just like to follow that up this semester with one more full length survey. \n\n" +
+					"Your full input in this survey will be extremely valuable, and will allow us to directly evaluate the impact of the new curriculum. However, we do apologize in advance for the length of this survey (~20 minutes)!\n\n" +
+					"We'd highly recommend taking this survey on your computer. Your uniquely generated anonymous link can be found here:\n" +
+					`https://yalesurvey.qualtrics.com/SE/?SID=SV_6Yvu5cup7EGUscd&id=${user.id} \n\n` +
+					"Thanks again for your time and input! As always, your input is completely anonymous. Feel free to send us any comments or questions!" +
+					"\n\n" +
 					
 					"\n\n" +
-					"With warm regards,\n" +
+					"Sincerely,\n" +
 					"The YCEI Team";
 
 			    email.sendEmail("yceilab@gmail.com", 
 			    				user.email,
-			    				"YCEI: Thank You & Final Closing Survey",
+			    				"YCEI: Spring Semester Survey",
 			    				message,
 			    				() => {
-			    					user.sent = true;
+			    					// user.sent = true;
+			    					// user.save();
+			    					user.history.push({
+			    						"date": "22/2/2017",
+			    						"completed": false,
+			    						"surveyType": "semester_t2",
+			    					})
+
 			    					user.save();
+
 			    				})
 
-    		}, userNum*2000);
+    		}, userNum*2500);
     		
 
 		    

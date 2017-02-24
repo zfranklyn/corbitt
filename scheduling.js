@@ -59,14 +59,14 @@ scheduling.prototype.startSurveySchedule = function(){
     }, biweeklySurveyScheduleEven);
 
     // friday sending schedule
-    later.setInterval(function(){
-        if (messages.schedule ) {
-            console.log("messages.schedule: ", messages.schedule );
-            console.log("SCHEDULE: Texting Friday Survey");
-            twilio.sendMessage(messages.adminNumber, "Scheduled Friday survey sending");
-            study.textCustomizedSurveyLinkToAllUsers("friday");
-        }
-    }, fridaySurveySchedule);
+    // later.setInterval(function(){
+    //     if (messages.schedule ) {
+    //         console.log("messages.schedule: ", messages.schedule );
+    //         console.log("SCHEDULE: Texting Friday Survey");
+    //         twilio.sendMessage(messages.adminNumber, "Scheduled Friday survey sending");
+    //         study.textCustomizedSurveyLinkToAllUsers("friday");
+    //     }
+    // }, fridaySurveySchedule);
 
     // reset schedule
     later.setInterval(function(){

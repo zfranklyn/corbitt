@@ -10,6 +10,7 @@ var misc = require('./misc.js');
 var routes = require('./routes/index'),
     send = require('./routes/send'),
     receive = require('./routes/receive'),
+    // completeSemester = require('./routes/completeSemester'),
     complete = require('./routes/complete');
 
 // global variable
@@ -36,6 +37,7 @@ app.use('/', routes);
 app.use('/send', send);
 app.use('/receive', receive);
 app.use('/complete', complete);
+// app.use('/complete-semester', complete);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
