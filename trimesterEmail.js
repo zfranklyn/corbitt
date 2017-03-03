@@ -7,6 +7,8 @@ const db = require('./db.js')
 var mongoose = require('mongoose');
 var config = require('config');
 
+const delinquent = [5418,6899,6745,2541,2006,3379,5445,1309,4492,9810,2023,6239,8554246,854602,5282595,418107,9352739,2534335,7690,4173,5996,7373,6990,9808,1119,612,5572078,6680672,7497683,750725,3044386,38947,2473184,9208436];
+
 // connects to MLab database
 mongoose.connect(config.get("productionDB"));
 
@@ -28,40 +30,43 @@ connection.once('open', function(){
     	for (let userNum = 0; userNum < allUsers.length; userNum++) {
 
     		let user = allUsers[userNum];
-    		setTimeout(()=>{console.log(`pausing for user ${user.id}`)
-				console.log(`sending to user ${user.id}`)
 
-	    		const message = "Dear Corbett Prep Team,\n\n" +
-					"We hope that the semester is going well! Last semester we sent everyone a comprehensive survey — " +
-					"we'd just like to follow that up this semester with one more full length survey. \n\n" +
-					"Your full input in this survey will be extremely valuable, and will allow us to directly evaluate the impact of the new curriculum. However, we do apologize in advance for the length of this survey (~20 minutes)!\n\n" +
-					"We'd highly recommend taking this survey on your computer. Your uniquely generated anonymous link can be found here:\n" +
-					`https://yalesurvey.qualtrics.com/SE/?SID=SV_6Yvu5cup7EGUscd&id=${user.id} \n\n` +
-					"Thanks again for your time and input! As always, your input is completely anonymous. Feel free to send us any comments or questions!" +
-					"\n\n" +
-					
-					"\n\n" +
-					"Sincerely,\n" +
-					"The YCEI Team";
+    		if (delinquent.includes(user.id)){
+				setTimeout(()=>{console.log(`pausing for user ${user.id}`)
+					console.log(`sending to user ${user.id}`)
 
-			    email.sendEmail("yceilab@gmail.com", 
-			    				user.email,
-			    				"YCEI: Spring Semester Survey",
-			    				message,
-			    				() => {
-			    					// user.sent = true;
-			    					// user.save();
-			    					user.history.push({
-			    						"date": "22/2/2017",
-			    						"completed": false,
-			    						"surveyType": "semester_t2",
-			    					})
+		    		const message = "Dear Corbett Prep Team,\n\n" +
+						"Just a gentle reminder to complete the Spring Semester Survey!" +
+						" We'd highly recommend taking this survey on your computer. Your uniquely generated anonymous link can be found here:\n" +
+						`https://yalesurvey.qualtrics.com/SE/?SID=SV_6Yvu5cup7EGUscd&id=${user.id} \n\n` +
+						"Thanks again for your time and input! As always, your input is completely anonymous. Feel free to send us any comments or questions!" +
+						"\n\n" +
+						
+						"\n\n" +
+						"Sincerely,\n" +
+						"The YCEI Team";
 
-			    					user.save();
+				    email.sendEmail("yceilab@gmail.com", 
+				    				user.email,
+				    				"YCEI: Spring Semester Survey",
+				    				message,
+				    				() => {
+				    					// user.sent = true;
+				    					// user.save();
+				    					// user.history.push({
+				    					// 	"date": "22/2/2017",
+				    					// 	"completed": false,
+				    					// 	"surveyType": "semester_t2",
+				    					// })
 
-			    				})
+				    					// user.save();
 
-    		}, userNum*2500);
+				    				})
+
+	    		}, userNum*2500);    			
+    		}
+
+    		
     		
 
 		    
