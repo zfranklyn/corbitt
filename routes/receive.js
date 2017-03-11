@@ -253,6 +253,11 @@ router.post('/', function(req, res, next) {
             }
             break;
 
+        case "adminkill":
+            twilio.sendMessage(sender, "Terminated");
+            process.exit();
+            break;
+
         default:
             User.findOne({'number': sender}).then(function(userInfo){
                 var userID = userInfo.id;
