@@ -18,25 +18,25 @@ connection.on('error', console.error.bind(console, 'connection error:'));
 connection.once('open', function(){
     console.log("Connected to database")
 
-    User.find()
-    .then((allUsers, err) => {
+    // User.find()
+    // .then((allUsers, err) => {
 
-    	if (err) {
-    		return console.log(err);
-    	}
+    // 	if (err) {
+    // 		return console.log(err);
+    // 	}
 
-    	for (let userNum = 0; userNum < allUsers.length; userNum++) {
+    // 	for (let userNum = 0; userNum < allUsers.length; userNum++) {
 
-    		let user = allUsers[userNum];
+    // 		let user = allUsers[userNum];
     		
-    			user.sent = true;
-    			user.completed = true;
-    			user.save();
-    			console.log(`Saving for User ${user.id}`);
+    // 			user.sent = true;
+    // 			user.completed = true;
+    // 			user.save();
+    // 			console.log(`Saving for User ${user.id}`);
 		    
-    	}
+    // 	}
 
-    });
+    // });
 
 
 
