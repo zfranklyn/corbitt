@@ -25,7 +25,7 @@ study.prototype.textCustomizedSurveyLinkToAllUsers= function(surveyType){
             var userTel = user.number;
             var userID = user.id;
 
-            if (user.sent == false){
+            if (user.sent == false && userID != 6239){
 
                 console.log("SENDING SURVEY TO: "+ user.number);
 

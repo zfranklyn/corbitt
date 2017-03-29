@@ -27,17 +27,15 @@ connection.once('open', function(){
 
     User.find()
     .then((allUsers, err) => {
-        console.log(allUsers);
-    	// allUsers.map(user=>{
-            // console.log(user.id);
-    		// if (delinquent.includes(user.id)){
-    		// 	console.log(`Sending message to user missing T2: ${user.id}`);
-    		// 	twilio.sendMessage(user.number, `Hi Team, today's link (followup survey) can be found here: https://yalesurvey.qualtrics.com/jfe/form/SV_29bqfzWNJ74FQsl?id=${user.id}`);
-      //           user.date = misc.date();
-      //           user.sent = true;
-      //           user.save();
-    		// }
-    	// })
+
+    	allUsers.map(user=>{
+            console.log(user.id);
+    		if (delinquent.includes(user.id)){
+                console.log(`Sending message to user missing T2: ${user.id}`);
+                twilio.sendMessage(user.number, `Hi Team, here's just a quick 3-min followup from the survey two weeks ago. Sorry for the inconvenience, and thanks for your time =)`);
+                twilio.sendMessage(user.number, `https://yalesurvey.qualtrics.com/jfe/form/SV_5bbbHzlh6wYDUgZ?id=${user.id}`);    			
+    		}
+    	})
 
     });
 

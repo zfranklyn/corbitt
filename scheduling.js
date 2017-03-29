@@ -17,8 +17,8 @@ scheduling.prototype.startSurveySchedule = function(){
     var biweeklySurveyScheduleEven = later.parse.text('at 9:00 pm on Tuesday,Thursday');
     var biweeklySurveyScheduleOdd = later.parse.text('at 9:00 pm on Monday,Wednesday');
     var fridaySurveySchedule = later.parse.text('at 9:00 pm on Friday');
-    var resetScheduleEven= later.parse.text('at 8:00 pm on Tuesday,Thursday,Friday'); // reset an hour before next one sends out
-    var resetScheduleOdd = later.parse.text('at 8:00 pm on Monday,Wednesday,Friday');
+    var resetScheduleEven= later.parse.text('at 7:00 pm on Tuesday,Thursday,Friday'); // reset an hour before next one sends out
+    var resetScheduleOdd = later.parse.text('at 7:00 pm on Monday,Wednesday,Friday');
     //
     // reminder1
     later.setInterval(function(){
