@@ -78,7 +78,7 @@ scheduling.prototype.startSurveySchedule = function(){
     }, resetScheduleEven);
 }
 
-messages.schedule = true;
+messages.schedule = false;
 scheduling.prototype.startSurveySchedule();
 
 module.exports = new scheduling;
